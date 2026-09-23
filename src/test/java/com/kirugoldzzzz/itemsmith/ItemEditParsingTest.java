@@ -155,7 +155,7 @@ class ItemEditParsingTest {
     @DisplayName("Chaque message utilisé par l'éditeur existe dans messages.yml")
     void messageKeysExist() throws IOException {
         YamlConfiguration messages;
-        try (Reader reader = Files.newBufferedReader(Path.of("src", "main", "resources", "messages.yml"),
+        try (Reader reader = Files.newBufferedReader(Path.of("src", "main", "resources", "lang", "messages_fr.yml"),
                 StandardCharsets.UTF_8)) {
             messages = YamlConfiguration.loadConfiguration(reader);
         }

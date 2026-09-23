@@ -1,0 +1,32 @@
+style-version: 2
+prefix: "<gradient:#8B5CF6:#22D3EE><b>ɪᴛᴇᴍsᴍɪᴛʜ</b></gradient> <muted>▸</muted> "
+general:
+  no-permission: "<prefix><error><cross></error> <text>You don't have permission to do that."
+  players-only: "<prefix><error><cross></error> <text>Only players can use this command."
+item-edit:
+  no-item: "<prefix><error><cross></error> <text>Hold an item in your hand to edit it."
+  applied: "<prefix><success><check></success> <text><change>"
+  error: "<prefix><error><cross></error> <text><reason>"
+  undone: "<prefix><success><check></success> <text>Last change undone <muted>▸</muted> <secondary><left></secondary> <text>more can be undone"
+  nothing-to-undo: "<prefix><error><cross></error> <text>No change to undo."
+  info-header: "<prefix><primary>✦</primary> <text><b>ɪᴛᴇᴍ</b> <secondary><item>"
+  info-line: "<muted>┃</muted> <text><label> <muted>▸</muted> <secondary><value>"
+  usage:
+    - "<prefix><primary>✦</primary> <text><b>ɪᴛᴇᴍ ᴇᴅɪᴛᴏʀ</b> <muted>▸</muted> <primary>/item</primary> <text>opens the menu, <primary>/item undo</primary> <text>undoes, <primary>/item info</primary> <text>summarises"
+    - "<muted>┃</muted> <primary>/item edit name</primary> <text>text or reset"
+    - "<muted>┃</muted> <primary>/item edit lore</primary> <text>add, set, insert, remove, move or clear"
+    - "<muted>┃</muted> <primary>/item edit enchant</primary> <text>enchantment level (up to 255), remove or clear"
+    - "<muted>┃</muted> <primary>/item edit flag</primary> <text>flag or all, then on or off"
+    - "<muted>┃</muted> <primary>/item edit attribute</primary> <text>add attribute value [add|percent|multiply] [slot], remove or clear"
+    - "<muted>┃</muted> <primary>/item edit amount</primary> <muted>|</muted> <primary>maxstack</primary> <muted>|</muted> <primary>damage</primary> <muted>|</muted> <primary>maxdamage</primary> <muted>|</muted> <primary>repaircost</primary> <muted>|</muted> <primary>enchantable</primary> <text>number"
+    - "<muted>┃</muted> <primary>/item edit unbreakable</primary> <muted>|</muted> <primary>glider</primary> <muted>|</muted> <primary>fireresistant</primary> <muted>|</muted> <primary>hidetooltip</primary> <text>on or off"
+    - "<muted>┃</muted> <primary>/item edit glint</primary> <text>on, off or reset <muted>▸</muted> <primary>rarity</primary> <text>common, uncommon, rare, epic or reset"
+    - "<muted>┃</muted> <primary>/item edit model</primary> <text>number <muted>▸</muted> <primary>itemmodel</primary> <muted>|</muted> <primary>tooltipstyle</primary> <text>namespace:name or reset"
+    - "<muted>┃</muted> <primary>/item edit type</primary> <text>material <muted>▸</muted> <primary>color</primary> <text>#RRGGBB, name or reset"
+    - "<muted>┃</muted> <primary>/item edit skull</primary> <text>player <muted>▸</muted> <primary>texture</primary> <text>base64 value"
+    - "<muted>┃</muted> <primary>/item edit potion</primary> <text>add effect seconds [level], remove, type or clear"
+    - "<muted>┃</muted> <primary>/item edit trim</primary> <text>material pattern or clear <muted>▸</muted> <primary>book</primary> <text>title or author text"
+
+logs:
+  prefix: "<gradient:#F87171:#A78BFA><b>ʟᴏɢs</b></gradient> <muted>▸</muted> "
+  alert: "<logs><icon> <muted><topic></muted> <muted>┃</muted> <text><title><muted>:</muted> <text><summary> <muted>[<secondary>ᴅᴇᴛᴀɪʟs</secondary><muted>]"

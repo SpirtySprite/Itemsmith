@@ -4,15 +4,15 @@ main: com.kirugoldzzzz.itemsmith.Itemsmith
 api-version: '1.21'
 folia-supported: true
 author: KiruGoldzZz
-description: "Éditeur d'objets en jeu"
+description: "In-game item editor for Paper and Folia"
 softdepend: [PlaceholderAPI]
 commands:
   item:
-    description: Éditer l'objet en main
+    description: Edit the item in your hand
     usage: /item [edit <champ> ...|undo|info|help]
     permission: itemsmith.admin.item
     aliases: [itemedit, ie, itemeditor, edititem]
 permissions:
   itemsmith.admin.item:
-    description: Éditer les objets avec /item
+    description: Edit items with /item
     default: op
