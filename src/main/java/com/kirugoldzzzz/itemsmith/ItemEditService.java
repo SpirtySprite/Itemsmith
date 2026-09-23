@@ -1,5 +1,6 @@
 package com.kirugoldzzzz.itemsmith;
 
+import com.kirugoldzzzz.itemsmith.api.event.ItemEditEvent;
 import com.kirugoldzzzz.itemsmith.common.text.Tr;
 
 import com.destroystokyo.paper.profile.PlayerProfile;
@@ -57,6 +58,14 @@ public final class ItemEditService {
         if (!edit.success()) {
             fail(player, edit.message());
             return false;
+        }
+        if (Bukkit.getServer() != null) {
+            ItemEditEvent event = new ItemEditEvent(player, before, edit.item(), edit.message());
+            Bukkit.getPluginManager().callEvent(event);
+            if (event.isCancelled()) {
+                Guis.deny(player);
+                return false;
+            }
         }
         player.getInventory().setItemInMainHand(edit.item());
         remember(player.getUniqueId(), new Change(before, player.getInventory().getItemInMainHand().clone()));
