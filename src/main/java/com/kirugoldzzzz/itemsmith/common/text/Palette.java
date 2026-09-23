@@ -54,7 +54,7 @@ public final class Palette {
             Placeholder.unparsed("pipe", PIPE),
             Placeholder.unparsed("check", CHECK),
             Placeholder.unparsed("cross", CROSS),
-            Placeholder.parsed("brand", "<" + GRADIENT_BRAND + "><b>Nexus</b></gradient>"));
+            Placeholder.parsed("brand", "<" + GRADIENT_BRAND + "><b>Itemsmith</b></gradient>"));
 
     private Palette() {
     }

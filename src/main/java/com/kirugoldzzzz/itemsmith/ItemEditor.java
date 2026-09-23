@@ -134,7 +134,7 @@ final class ItemEditor {
     static Edit addAttribute(ItemStack item, Attribute attribute, double amount,
                              AttributeModifier.Operation operation, EquipmentSlotGroup slot) {
         return meta(item, meta -> {
-            NamespacedKey key = new NamespacedKey("nexus", "edit_" + UUID.randomUUID().toString().substring(0, 8));
+            NamespacedKey key = new NamespacedKey("itemsmith", "edit_" + UUID.randomUUID().toString().substring(0, 8));
             meta.addAttributeModifier(attribute, new AttributeModifier(key, amount, operation, slot));
             return "Attribut " + ItemLookup.shortKey(attribute) + " " + amount + " ajouté";
         });
