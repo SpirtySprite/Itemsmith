@@ -1,0 +1,42 @@
+style-version: 2
+prefix: "<gradient:#8B5CF6:#22D3EE><b>ɪᴛᴇᴍsᴍɪᴛʜ</b></gradient> <muted>▸</muted> "
+general:
+  no-permission: "<prefix><error><cross></error> <text>Vous n'avez pas la permission de faire cela."
+  players-only: "<prefix><error><cross></error> <text>Seuls les joueurs peuvent utiliser cette commande."
+  unknown-player: "<prefix><error><cross></error> <text>Aucun joueur nommé <text><player></text> n'a été trouvé."
+  invalid-amount: "<prefix><error><cross></error> <text><input> n'est pas un montant valide."
+  reloaded: "<prefix><success><check></success> <text>Toutes les configurations ont été rechargées."
+  reload-failed: "<prefix><error><cross></error> <text>Le rechargement a échoué, consultez la console."
+  recovered: "<prefix><success><check></success> <text><secondary><amount></secondary> objets laissés dans un menu vous ont été rendus."
+  recovered-partial: "<prefix><warning>⚠</warning> <text><secondary><amount></secondary> objets rendus, <secondary><left></secondary> attendent une place libre, nouvel essai dans une minute."
+  admin-usage: "<prefix><secondary>⌨</secondary> <muted>ᴄᴏᴍᴍᴀɴᴅᴇ</muted> <primary>/nexus <dashboard|reload|dimensions|player|log|diag|items|verify|maintenance|stress|alerts>"
+
+chat-input:
+  request: "<prefix><secondary>⌨</secondary> <text>Écrivez <primary><field></primary> dans le chat. <muted>Tapez <text>cancel</text> pour annuler."
+  cancelled: "<prefix><muted>Modification annulée."
+  expired: "<prefix><warning>La saisie a expiré. Recommencez depuis le menu."
+
+item-edit:
+  no-item: "<prefix><error><cross></error> <text>Tenez un objet en main pour l'éditer."
+  applied: "<prefix><success><check></success> <text><change>"
+  error: "<prefix><error><cross></error> <text><reason>"
+  undone: "<prefix><success><check></success> <text>Dernière modification annulée <muted>▸</muted> <secondary><left></secondary> <text>encore annulables"
+  nothing-to-undo: "<prefix><error><cross></error> <text>Aucune modification à annuler."
+  info-header: "<prefix><primary>✦</primary> <text><b>ᴏʙᴊᴇᴛ</b> <secondary><item>"
+  info-line: "<muted>┃</muted> <text><label> <muted>▸</muted> <secondary><value>"
+  usage:
+    - "<prefix><primary>✦</primary> <text><b>ᴇᴅɪᴛᴇᴜʀ ᴅ'ᴏʙᴊᴇᴛ</b> <muted>▸</muted> <primary>/item</primary> <text>ouvre le menu, <primary>/item undo</primary> <text>annule, <primary>/item info</primary> <text>résume"
+    - "<muted>┃</muted> <primary>/item edit name</primary> <text>texte ou reset"
+    - "<muted>┃</muted> <primary>/item edit lore</primary> <text>add, set, insert, remove, move ou clear"
+    - "<muted>┃</muted> <primary>/item edit enchant</primary> <text>enchantement niveau (jusqu'à 255), remove ou clear"
+    - "<muted>┃</muted> <primary>/item edit flag</primary> <text>masquage ou all, puis on ou off"
+    - "<muted>┃</muted> <primary>/item edit attribute</primary> <text>add attribut valeur [add|percent|multiply] [emplacement], remove ou clear"
+    - "<muted>┃</muted> <primary>/item edit amount</primary> <muted>|</muted> <primary>maxstack</primary> <muted>|</muted> <primary>damage</primary> <muted>|</muted> <primary>maxdamage</primary> <muted>|</muted> <primary>repaircost</primary> <muted>|</muted> <primary>enchantable</primary> <text>nombre"
+    - "<muted>┃</muted> <primary>/item edit unbreakable</primary> <muted>|</muted> <primary>glider</primary> <muted>|</muted> <primary>fireresistant</primary> <muted>|</muted> <primary>hidetooltip</primary> <text>on ou off"
+    - "<muted>┃</muted> <primary>/item edit glint</primary> <text>on, off ou reset <muted>▸</muted> <primary>rarity</primary> <text>common, uncommon, rare, epic ou reset"
+    - "<muted>┃</muted> <primary>/item edit model</primary> <text>nombre <muted>▸</muted> <primary>itemmodel</primary> <muted>|</muted> <primary>tooltipstyle</primary> <text>espace:nom ou reset"
+    - "<muted>┃</muted> <primary>/item edit type</primary> <text>matériau <muted>▸</muted> <primary>color</primary> <text>#RRGGBB, nom ou reset"
+    - "<muted>┃</muted> <primary>/item edit skull</primary> <text>joueur <muted>▸</muted> <primary>texture</primary> <text>valeur base64"
+    - "<muted>┃</muted> <primary>/item edit potion</primary> <text>add effet secondes [niveau], remove, type ou clear"
+    - "<muted>┃</muted> <primary>/item edit trim</primary> <text>matériau motif ou clear <muted>▸</muted> <primary>book</primary> <text>title ou author texte"
+
