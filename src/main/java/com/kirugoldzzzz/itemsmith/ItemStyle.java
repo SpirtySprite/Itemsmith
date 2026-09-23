@@ -29,7 +29,7 @@ final class ItemStyle {
     }
 
     static String title(String text) {
-        return Card.title(HEX, ACCENT, Card.small(Tr.t("Éditeur"))) + Palette.MUTED + Tr.t(" » ") + Palette.TEXT + text;
+        return Card.title(HEX, ACCENT, Card.small(Tr.t("Éditeur"))) + Palette.MUTED + " » " + Palette.TEXT + text;
     }
 
     static String state(boolean active) {

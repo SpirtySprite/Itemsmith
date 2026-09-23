@@ -90,7 +90,7 @@ final class ItemEditor {
             }
             meta.removeEnchant(enchantment);
             meta.addEnchant(enchantment, level, true);
-            return "Enchantement " + ItemLookup.shortKey(enchantment) + " niveau " + level;
+            return Tr.t("Enchantement ") + ItemLookup.shortKey(enchantment) + Tr.t(" niveau ") + level;
         });
     }
 
@@ -99,7 +99,7 @@ final class ItemEditor {
             if (!meta.removeEnchant(enchantment)) {
                 throw new EditException(Tr.t("Cet objet n'a pas l'enchantement ") + ItemLookup.shortKey(enchantment));
             }
-            return "Enchantement " + ItemLookup.shortKey(enchantment) + Tr.t(" retiré");
+            return Tr.t("Enchantement ") + ItemLookup.shortKey(enchantment) + Tr.t(" retiré");
         });
     }
 
@@ -138,7 +138,7 @@ final class ItemEditor {
         return meta(item, meta -> {
             NamespacedKey key = new NamespacedKey("itemsmith", "edit_" + UUID.randomUUID().toString().substring(0, 8));
             meta.addAttributeModifier(attribute, new AttributeModifier(key, amount, operation, slot));
-            return "Attribut " + ItemLookup.shortKey(attribute) + " " + amount + Tr.t(" ajouté");
+            return Tr.t("Attribut ") + ItemLookup.shortKey(attribute) + " " + amount + Tr.t(" ajouté");
         });
     }
 
@@ -147,7 +147,7 @@ final class ItemEditor {
             if (!meta.removeAttributeModifier(attribute)) {
                 throw new EditException(Tr.t("Cet objet n'a pas d'attribut ") + ItemLookup.shortKey(attribute));
             }
-            return "Attribut " + ItemLookup.shortKey(attribute) + Tr.t(" retiré");
+            return Tr.t("Attribut ") + ItemLookup.shortKey(attribute) + Tr.t(" retiré");
         });
     }
 
@@ -156,7 +156,7 @@ final class ItemEditor {
             if (!meta.removeAttributeModifier(attribute, modifier)) {
                 throw new EditException(Tr.t("Ce modificateur n'existe plus"));
             }
-            return "Modificateur " + ItemLookup.shortKey(attribute) + Tr.t(" retiré");
+            return Tr.t("Modificateur ") + ItemLookup.shortKey(attribute) + Tr.t(" retiré");
         });
     }
 
@@ -277,7 +277,7 @@ final class ItemEditor {
     static Edit tooltipStyle(ItemStack item, NamespacedKey style) {
         return meta(item, meta -> {
             meta.setTooltipStyle(style);
-            return style == null ? Tr.t("Style d'infobulle par défaut") : "Style d'infobulle : " + style;
+            return style == null ? Tr.t("Style d'infobulle par défaut") : Tr.t("Style d'infobulle : ") + style;
         });
     }
 
@@ -340,7 +340,7 @@ final class ItemEditor {
                 throw new EditException(Tr.t("Le niveau doit être entre 1 et ") + ItemLookup.MAX_ENCHANT_LEVEL);
             }
             meta.addCustomEffect(new PotionEffect(effect, seconds * TICKS_PER_SECOND, level - 1), true);
-            return "Effet " + ItemLookup.shortKey(effect) + " " + level + " pendant " + seconds + "s";
+            return Tr.t("Effet ") + ItemLookup.shortKey(effect) + " " + level + Tr.t(" pendant ") + seconds + "s";
         });
     }
 
@@ -349,7 +349,7 @@ final class ItemEditor {
             if (!meta.removeCustomEffect(effect)) {
                 throw new EditException(Tr.t("Cette potion n'a pas l'effet ") + ItemLookup.shortKey(effect));
             }
-            return "Effet " + ItemLookup.shortKey(effect) + Tr.t(" retiré");
+            return Tr.t("Effet ") + ItemLookup.shortKey(effect) + Tr.t(" retiré");
         });
     }
 
@@ -371,7 +371,7 @@ final class ItemEditor {
         return typed(item, ArmorMeta.class, Tr.t("Seules les pièces d'armure acceptent une garniture"), meta -> {
             meta.setTrim(material == null || pattern == null ? null : new ArmorTrim(material, pattern));
             return material == null ? Tr.t("Garniture retirée")
-                    : "Garniture " + ItemLookup.shortKey(pattern) + " en " + ItemLookup.shortKey(material);
+                    : Tr.t("Garniture ") + ItemLookup.shortKey(pattern) + Tr.t(" en ") + ItemLookup.shortKey(material);
         });
     }
 

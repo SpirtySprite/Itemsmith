@@ -167,11 +167,11 @@ final class ItemLookup {
         try {
             int value = Integer.parseInt(raw == null ? "" : raw.trim());
             if (value < min || value > max) {
-                throw new EditException(label + Tr.t(" doit être entre ") + min + " et " + max);
+                throw new EditException(label + Tr.t(" doit être entre ") + min + Tr.t(" et ") + max);
             }
             return value;
         } catch (NumberFormatException invalid) {
-            throw new EditException(label + Tr.t(" doit être un nombre entier entre ") + min + " et " + max);
+            throw new EditException(label + Tr.t(" doit être un nombre entier entre ") + min + Tr.t(" et ") + max);
         }
     }
 

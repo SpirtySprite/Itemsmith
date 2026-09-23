@@ -60,7 +60,7 @@ final class ItemLoreMenu {
     }
 
     private GuiItem lineIcon(int line, Component text, int total) {
-        List<Component> lore = new ArrayList<>(Mini.labels(ItemStyle.card("Ligne " + line + " sur " + total)
+        List<Component> lore = new ArrayList<>(Mini.labels(ItemStyle.card(Tr.t("Ligne ") + line + Tr.t(" sur ") + total)
                 .section(Tr.t("Aperçu"))
                 .build()));
         lore.add(BAR.append(text));
@@ -73,23 +73,23 @@ final class ItemLoreMenu {
                 .click(Tr.t("Touche jeter"), Tr.t("pour insérer une ligne avant"))
                 .build()));
         return ItemBuilder.of(Material.PAPER)
-                .name(Mini.label(ItemStyle.heading("Ligne " + line)))
+                .name(Mini.label(ItemStyle.heading(Tr.t("Ligne ") + line)))
                 .loreComponents(lore)
                 .asGuiItem(event -> {
                     Player player = (Player) event.getWhoClicked();
                     ClickType click = event.getClick();
                     switch (click) {
                         case SHIFT_LEFT -> apply(player, lore(lines -> LoreEdit.move(lines, line, Math.max(1, line - 1)),
-                                "Ligne " + line + Tr.t(" montée")));
+                                Tr.t("Ligne ") + line + Tr.t(" montée")));
                         case SHIFT_RIGHT -> apply(player, lore(lines -> LoreEdit.move(lines, line, Math.min(total, line + 1)),
-                                "Ligne " + line + " descendue"));
-                        case RIGHT -> apply(player, lore(lines -> LoreEdit.remove(lines, line), "Ligne " + line + " supprimée"));
-                        case DROP, CONTROL_DROP -> ItemPrompts.edit(service, player, "Nouvelle ligne", true,
+                                Tr.t("Ligne ") + line + Tr.t(" descendue")));
+                        case RIGHT -> apply(player, lore(lines -> LoreEdit.remove(lines, line), Tr.t("Ligne ") + line + Tr.t(" supprimée")));
+                        case DROP, CONTROL_DROP -> ItemPrompts.edit(service, player, Tr.t("Nouvelle ligne"), true,
                                 typed -> lore(lines -> LoreEdit.insert(lines, line, ItemText.parse(typed)),
                                         Tr.t("Ligne insérée en position ") + line), () -> open(player));
-                        default -> ItemPrompts.edit(service, player, "Ligne " + line, true,
+                        default -> ItemPrompts.edit(service, player, Tr.t("Ligne ") + line, true,
                                 typed -> lore(lines -> LoreEdit.set(lines, line, ItemText.parse(typed)),
-                                        "Ligne " + line + Tr.t(" modifiée")), () -> open(player));
+                                        Tr.t("Ligne ") + line + Tr.t(" modifiée")), () -> open(player));
                     }
                 });
     }
@@ -118,7 +118,7 @@ final class ItemLoreMenu {
                 Card.of(Palette.ERROR_HEX)
                         .tag(Tr.t("Description"))
                         .blank()
-                        .line(Tr.t("Supprime les ") + total + " lignes")
+                        .line(Tr.t("Supprime les ") + total + Tr.t(" lignes"))
                         .line(Tr.t("Annulable avec /item undo"))
                         .blank()
                         .click(Tr.t("Maj + clic"), Tr.t("pour confirmer"))

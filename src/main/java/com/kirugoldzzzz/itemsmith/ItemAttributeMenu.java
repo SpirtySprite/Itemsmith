@@ -186,9 +186,9 @@ final class ItemAttributeMenu {
 
     private static String operationHelp(AttributeModifier.Operation operation) {
         return switch (operation) {
-            case ADD_NUMBER -> "Ajoute la valeur telle quelle";
-            case ADD_SCALAR -> "Ajoute un pourcentage de la valeur de base";
-            case MULTIPLY_SCALAR_1 -> "Multiplie le total par 1 + la valeur";
+            case ADD_NUMBER -> Tr.t("Ajoute la valeur telle quelle");
+            case ADD_SCALAR -> Tr.t("Ajoute un pourcentage de la valeur de base");
+            case MULTIPLY_SCALAR_1 -> Tr.t("Multiplie le total par 1 + la valeur");
         };
     }
 

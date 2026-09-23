@@ -62,9 +62,9 @@ final class ItemEnchantMenu {
         boolean applied = level > 0;
         Card card = ItemStyle.card(applied ? Tr.t("Appliqué") : Tr.t("Disponible"))
                 .blank()
-                .stat(applied ? Palette.SUCCESS : Palette.MUTED, Card.STAR, Tr.t("Niveau actuel"), applied ? level : "aucun")
+                .stat(applied ? Palette.SUCCESS : Palette.MUTED, Card.STAR, Tr.t("Niveau actuel"), applied ? level : Tr.t("aucun"))
                 .stat(Card.FLAG, Tr.t("Maximum normal"), enchantment.getMaxLevel())
-                .stat(Card.CATEGORY, Tr.t("Adapté à cet objet"), enchantment.canEnchantItem(item) ? "oui" : Tr.t("non, forcé quand même"))
+                .stat(Card.CATEGORY, Tr.t("Adapté à cet objet"), enchantment.canEnchantItem(item) ? Tr.t("oui") : Tr.t("non, forcé quand même"))
                 .blank()
                 .click(Tr.t("Clic gauche"), Tr.t("pour ajouter un niveau"))
                 .click(Tr.t("Clic droit"), Tr.t("pour retirer un niveau"))
@@ -76,7 +76,7 @@ final class ItemEnchantMenu {
                 card.build(), applied, event -> {
                     Player player = (Player) event.getWhoClicked();
                     switch (event.getClick()) {
-                        case SHIFT_LEFT -> ItemPrompts.edit(service, player, "Niveau 1 à 255", false, typed -> {
+                        case SHIFT_LEFT -> ItemPrompts.edit(service, player, Tr.t("Niveau 1 à 255"), false, typed -> {
                             int chosen = ItemLookup.integer(typed, 1, ItemLookup.MAX_ENCHANT_LEVEL, Tr.t("Le niveau"));
                             return held -> ItemEditor.enchant(held, enchantment, chosen);
                         }, () -> open(player));

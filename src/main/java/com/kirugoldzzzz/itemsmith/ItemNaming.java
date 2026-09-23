@@ -74,15 +74,15 @@ final class ItemNaming {
 
     static String flag(ItemFlag flag) {
         return switch (flag) {
-            case HIDE_ENCHANTS -> "Enchantements";
-            case HIDE_ATTRIBUTES -> "Attributs";
-            case HIDE_UNBREAKABLE -> "Incassable";
-            case HIDE_DESTROYS -> "Blocs cassables";
-            case HIDE_PLACED_ON -> "Blocs posables";
-            case HIDE_ADDITIONAL_TOOLTIP -> "Infos supplémentaires";
-            case HIDE_DYE -> "Teinture";
-            case HIDE_ARMOR_TRIM -> "Garniture";
-            case HIDE_STORED_ENCHANTS -> "Enchantements stockés";
+            case HIDE_ENCHANTS -> Tr.t("Enchantements");
+            case HIDE_ATTRIBUTES -> Tr.t("Attributs");
+            case HIDE_UNBREAKABLE -> Tr.t("Incassable");
+            case HIDE_DESTROYS -> Tr.t("Blocs cassables");
+            case HIDE_PLACED_ON -> Tr.t("Blocs posables");
+            case HIDE_ADDITIONAL_TOOLTIP -> Tr.t("Infos supplémentaires");
+            case HIDE_DYE -> Tr.t("Teinture");
+            case HIDE_ARMOR_TRIM -> Tr.t("Garniture");
+            case HIDE_STORED_ENCHANTS -> Tr.t("Enchantements stockés");
         };
     }
 
@@ -105,34 +105,34 @@ final class ItemNaming {
             return Tr.t("Par défaut");
         }
         return switch (rarity) {
-            case COMMON -> "Commune";
-            case UNCOMMON -> "Peu commune";
-            case RARE -> "Rare";
-            case EPIC -> "Épique";
+            case COMMON -> Tr.t("Commune");
+            case UNCOMMON -> Tr.t("Peu commune");
+            case RARE -> Tr.t("Rare");
+            case EPIC -> Tr.t("Épique");
         };
     }
 
     static String operation(AttributeModifier.Operation operation) {
         return switch (operation) {
-            case ADD_NUMBER -> "Ajouter";
-            case ADD_SCALAR -> "Pourcentage de base";
-            case MULTIPLY_SCALAR_1 -> "Multiplier";
+            case ADD_NUMBER -> Tr.t("Ajouter");
+            case ADD_SCALAR -> Tr.t("Pourcentage de base");
+            case MULTIPLY_SCALAR_1 -> Tr.t("Multiplier");
         };
     }
 
     static String slot(EquipmentSlotGroup group) {
         return switch (group.toString()) {
-            case "any" -> "Partout";
-            case "mainhand" -> "Main principale";
-            case "offhand" -> "Main secondaire";
-            case "hand" -> "Une main";
-            case "head" -> "Tête";
-            case "chest" -> "Torse";
-            case "legs" -> "Jambes";
-            case "feet" -> "Pieds";
-            case "armor" -> "Armure";
-            case "body" -> "Corps";
-            case "saddle" -> "Selle";
+            case "any" -> Tr.t("Partout");
+            case "mainhand" -> Tr.t("Main principale");
+            case "offhand" -> Tr.t("Main secondaire");
+            case "hand" -> Tr.t("Une main");
+            case "head" -> Tr.t("Tête");
+            case "chest" -> Tr.t("Torse");
+            case "legs" -> Tr.t("Jambes");
+            case "feet" -> Tr.t("Pieds");
+            case "armor" -> Tr.t("Armure");
+            case "body" -> Tr.t("Corps");
+            case "saddle" -> Tr.t("Selle");
             default -> group.toString();
         };
     }

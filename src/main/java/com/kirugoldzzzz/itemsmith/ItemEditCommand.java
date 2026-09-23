@@ -74,7 +74,7 @@ public final class ItemEditCommand extends NexusCommand {
     private void edit(Player player, String field, String[] args) {
         switch (field) {
             case "name", "nom" -> {
-                need(args, 2, Tr.t("/item edit name <texte|reset>"));
+                need(args, 2, "/item edit name <texte|reset>");
                 String text = ItemText.join(args, 1);
                 apply(player, item -> args.length == 2 && ItemLookup.reset(args[1])
                         ? ItemEditor.resetName(item) : ItemEditor.name(item, text));
@@ -82,7 +82,7 @@ public final class ItemEditCommand extends NexusCommand {
             case "lore", "description" -> lore(player, args);
             case "enchant", "enchantement" -> enchant(player, args);
             case "flag", "masquer" -> {
-                need(args, 2, Tr.t("/item edit flag <masquage|all> [on|off]"));
+                need(args, 2, "/item edit flag <masquage|all> [on|off]");
                 String state = args.length > 2 ? args[2] : null;
                 if (ItemLookup.normalize(args[1]).equals("all")) {
                     boolean hide = ItemLookup.state(state, false);
@@ -94,23 +94,23 @@ public final class ItemEditCommand extends NexusCommand {
             }
             case "attribute", "attribut" -> attribute(player, args);
             case "amount", "quantite" -> {
-                need(args, 2, Tr.t("/item edit amount <1-99>"));
+                need(args, 2, "/item edit amount <1-99>");
                 int amount = ItemLookup.integer(args[1], 1, ItemLookup.MAX_STACK, Tr.t("La quantité"));
                 apply(player, item -> ItemEditor.amount(item, amount));
             }
             case "maxstack" -> {
-                need(args, 2, Tr.t("/item edit maxstack <1-99|reset>"));
+                need(args, 2, "/item edit maxstack <1-99|reset>");
                 Integer size = ItemLookup.reset(args[1]) ? null
                         : ItemLookup.integer(args[1], 1, ItemLookup.MAX_STACK, Tr.t("La taille de pile"));
                 apply(player, item -> ItemEditor.maxStack(item, size));
             }
             case "damage", "degats" -> {
-                need(args, 2, Tr.t("/item edit damage <nombre>"));
+                need(args, 2, "/item edit damage <nombre>");
                 int damage = ItemLookup.integer(args[1], 0, Integer.MAX_VALUE, Tr.t("Les dégâts"));
                 apply(player, item -> ItemEditor.damage(item, damage));
             }
             case "maxdamage", "durabilite" -> {
-                need(args, 2, Tr.t("/item edit maxdamage <nombre|reset>"));
+                need(args, 2, "/item edit maxdamage <nombre|reset>");
                 Integer max = ItemLookup.reset(args[1]) ? null
                         : ItemLookup.integer(args[1], 1, Integer.MAX_VALUE, Tr.t("La durabilité maximale"));
                 apply(player, item -> ItemEditor.maxDamage(item, max));
@@ -120,72 +120,72 @@ public final class ItemEditCommand extends NexusCommand {
             case "fireresistant", "ignifuge" -> apply(player, item -> ItemEditor.fireResistant(item, optional(args)));
             case "hidetooltip" -> apply(player, item -> ItemEditor.hideTooltip(item, optional(args)));
             case "glint", "brillance" -> {
-                need(args, 2, Tr.t("/item edit glint <on|off|reset>"));
+                need(args, 2, "/item edit glint <on|off|reset>");
                 Boolean glint = ItemLookup.reset(args[1]) ? null : ItemLookup.state(args[1], false);
                 apply(player, item -> ItemEditor.glint(item, glint));
             }
             case "rarity", "rarete" -> {
-                need(args, 2, Tr.t("/item edit rarity <common|uncommon|rare|epic|reset>"));
+                need(args, 2, "/item edit rarity <common|uncommon|rare|epic|reset>");
                 var rarity = ItemLookup.reset(args[1]) ? null : ItemLookup.rarity(args[1]);
                 apply(player, item -> ItemEditor.rarity(item, rarity));
             }
             case "model", "modele" -> {
-                need(args, 2, Tr.t("/item edit model <nombre|reset>"));
+                need(args, 2, "/item edit model <nombre|reset>");
                 Integer model = ItemLookup.reset(args[1]) ? null
                         : ItemLookup.integer(args[1], Integer.MIN_VALUE, Integer.MAX_VALUE, Tr.t("Le modèle"));
                 apply(player, item -> ItemEditor.customModelData(item, model));
             }
             case "itemmodel" -> {
-                need(args, 2, Tr.t("/item edit itemmodel <espace:nom|reset>"));
+                need(args, 2, "/item edit itemmodel <espace:nom|reset>");
                 var key = ItemLookup.reset(args[1]) ? null : ItemLookup.key(args[1]);
                 apply(player, item -> ItemEditor.itemModel(item, key));
             }
             case "tooltipstyle" -> {
-                need(args, 2, Tr.t("/item edit tooltipstyle <espace:nom|reset>"));
+                need(args, 2, "/item edit tooltipstyle <espace:nom|reset>");
                 var key = ItemLookup.reset(args[1]) ? null : ItemLookup.key(args[1]);
                 apply(player, item -> ItemEditor.tooltipStyle(item, key));
             }
             case "enchantable" -> {
-                need(args, 2, Tr.t("/item edit enchantable <nombre|reset>"));
+                need(args, 2, "/item edit enchantable <nombre|reset>");
                 Integer value = ItemLookup.reset(args[1]) ? null
                         : ItemLookup.integer(args[1], 1, Integer.MAX_VALUE, Tr.t("L'enchantabilité"));
                 apply(player, item -> ItemEditor.enchantable(item, value));
             }
             case "type", "materiau" -> {
-                need(args, 2, Tr.t("/item edit type <matériau>"));
+                need(args, 2, "/item edit type <matériau>");
                 Material material = ItemLookup.material(args[1]);
                 apply(player, item -> ItemEditor.type(item, material));
             }
             case "color", "couleur" -> {
-                need(args, 2, Tr.t("/item edit color <#RRGGBB|nom|reset>"));
+                need(args, 2, "/item edit color <#RRGGBB|nom|reset>");
                 var color = ItemLookup.reset(args[1]) ? null : ItemLookup.color(args[1]);
                 apply(player, item -> ItemEditor.color(item, color));
             }
             case "skull", "tete" -> {
-                need(args, 2, Tr.t("/item edit skull <joueur>"));
+                need(args, 2, "/item edit skull <joueur>");
                 if (service.holding(player)) {
                     service.skullOf(player, args[1], null);
                 }
             }
             case "texture" -> {
-                need(args, 2, Tr.t("/item edit texture <valeur>"));
+                need(args, 2, "/item edit texture <valeur>");
                 String texture = ItemText.join(args, 1);
                 apply(player, item -> ItemEditor.skullTexture(item, texture));
             }
             case "potion" -> potion(player, args);
             case "trim", "garniture" -> {
-                need(args, 2, Tr.t("/item edit trim <matériau> <motif> | trim clear"));
+                need(args, 2, "/item edit trim <matériau> <motif> | trim clear");
                 if (ItemLookup.reset(args[1]) || ItemLookup.normalize(args[1]).equals("clear")) {
                     apply(player, item -> ItemEditor.trim(item, null, null));
                     return;
                 }
-                need(args, 3, Tr.t("/item edit trim <matériau> <motif>"));
+                need(args, 3, "/item edit trim <matériau> <motif>");
                 var material = ItemLookup.trimMaterial(args[1]);
                 var pattern = ItemLookup.trimPattern(args[2]);
                 apply(player, item -> ItemEditor.trim(item, material, pattern));
             }
             case "book", "livre" -> {
-                need(args, 3, Tr.t("/item edit book <title|author> <texte>"));
+                need(args, 3, "/item edit book <title|author> <texte>");
                 String text = ItemText.join(args, 2);
                 switch (ItemLookup.normalize(args[1])) {
                     case "title", "titre" -> apply(player, item -> ItemEditor.bookTitle(item, text));
@@ -194,7 +194,7 @@ public final class ItemEditCommand extends NexusCommand {
                 }
             }
             case "repaircost", "reparation" -> {
-                need(args, 2, Tr.t("/item edit repaircost <nombre>"));
+                need(args, 2, "/item edit repaircost <nombre>");
                 int cost = ItemLookup.integer(args[1], 0, Integer.MAX_VALUE, Tr.t("Le coût de réparation"));
                 apply(player, item -> ItemEditor.repairCost(item, cost));
             }
@@ -203,39 +203,39 @@ public final class ItemEditCommand extends NexusCommand {
     }
 
     private void lore(Player player, String[] args) {
-        need(args, 2, Tr.t("/item edit lore <add|set|insert|remove|move|clear>"));
+        need(args, 2, "/item edit lore <add|set|insert|remove|move|clear>");
         switch (ItemLookup.normalize(args[1])) {
             case "add", "ajouter" -> {
-                need(args, 3, Tr.t("/item edit lore add <texte>"));
+                need(args, 3, "/item edit lore add <texte>");
                 Component line = ItemText.parse(ItemText.join(args, 2));
                 apply(player, item -> ItemEditor.lore(item, lore -> LoreEdit.add(lore, line), Tr.t("Ligne ajoutée")));
             }
             case "set", "modifier" -> {
-                need(args, 4, Tr.t("/item edit lore set <ligne> <texte>"));
+                need(args, 4, "/item edit lore set <ligne> <texte>");
                 int index = ItemLookup.integer(args[2], 1, LoreEdit.MAX_LINES, Tr.t("La ligne"));
                 Component line = ItemText.parse(ItemText.join(args, 3));
                 apply(player, item -> ItemEditor.lore(item, lore -> LoreEdit.set(lore, index, line),
-                        "Ligne " + index + Tr.t(" modifiée")));
+                        Tr.t("Ligne ") + index + Tr.t(" modifiée")));
             }
             case "insert", "inserer" -> {
-                need(args, 4, Tr.t("/item edit lore insert <ligne> <texte>"));
+                need(args, 4, "/item edit lore insert <ligne> <texte>");
                 int index = ItemLookup.integer(args[2], 1, LoreEdit.MAX_LINES, Tr.t("La ligne"));
                 Component line = ItemText.parse(ItemText.join(args, 3));
                 apply(player, item -> ItemEditor.lore(item, lore -> LoreEdit.insert(lore, index, line),
                         Tr.t("Ligne insérée en position ") + index));
             }
             case "remove", "retirer" -> {
-                need(args, 3, Tr.t("/item edit lore remove <ligne>"));
+                need(args, 3, "/item edit lore remove <ligne>");
                 int index = ItemLookup.integer(args[2], 1, LoreEdit.MAX_LINES, Tr.t("La ligne"));
                 apply(player, item -> ItemEditor.lore(item, lore -> LoreEdit.remove(lore, index),
-                        "Ligne " + index + Tr.t(" retirée")));
+                        Tr.t("Ligne ") + index + Tr.t(" retirée")));
             }
             case "move", "deplacer" -> {
-                need(args, 4, Tr.t("/item edit lore move <ligne> <position>"));
+                need(args, 4, "/item edit lore move <ligne> <position>");
                 int from = ItemLookup.integer(args[2], 1, LoreEdit.MAX_LINES, Tr.t("La ligne"));
                 int to = ItemLookup.integer(args[3], 1, LoreEdit.MAX_LINES, Tr.t("La position"));
                 apply(player, item -> ItemEditor.lore(item, lore -> LoreEdit.move(lore, from, to),
-                        "Ligne " + from + Tr.t(" déplacée en position ") + to));
+                        Tr.t("Ligne ") + from + Tr.t(" déplacée en position ") + to));
             }
             case "clear", "effacer" -> apply(player, item -> ItemEditor.lore(item, lore -> List.of(),
                     Tr.t("Description effacée")));
@@ -244,10 +244,10 @@ public final class ItemEditCommand extends NexusCommand {
     }
 
     private void enchant(Player player, String[] args) {
-        need(args, 2, Tr.t("/item edit enchant <enchantement> [niveau] | remove | clear"));
+        need(args, 2, "/item edit enchant <enchantement> [niveau] | remove | clear");
         switch (ItemLookup.normalize(args[1])) {
             case "remove", "retirer" -> {
-                need(args, 3, Tr.t("/item edit enchant remove <enchantement>"));
+                need(args, 3, "/item edit enchant remove <enchantement>");
                 Enchantment enchantment = ItemLookup.enchantment(args[2]);
                 apply(player, item -> ItemEditor.unenchant(item, enchantment));
             }
@@ -262,10 +262,10 @@ public final class ItemEditCommand extends NexusCommand {
     }
 
     private void attribute(Player player, String[] args) {
-        need(args, 2, Tr.t("/item edit attribute <add|remove|clear>"));
+        need(args, 2, "/item edit attribute <add|remove|clear>");
         switch (ItemLookup.normalize(args[1])) {
             case "add", "ajouter" -> {
-                need(args, 4, Tr.t("/item edit attribute add <attribut> <valeur> [add|percent|multiply] [emplacement]"));
+                need(args, 4, "/item edit attribute add <attribut> <valeur> [add|percent|multiply] [emplacement]");
                 var attribute = ItemLookup.attribute(args[2]);
                 double amount = ItemLookup.decimal(args[3], Tr.t("La valeur"));
                 AttributeModifier.Operation operation = ItemLookup.operation(args.length > 4 ? args[4] : null);
@@ -273,7 +273,7 @@ public final class ItemEditCommand extends NexusCommand {
                 apply(player, item -> ItemEditor.addAttribute(item, attribute, amount, operation, slot));
             }
             case "remove", "retirer" -> {
-                need(args, 3, Tr.t("/item edit attribute remove <attribut>"));
+                need(args, 3, "/item edit attribute remove <attribut>");
                 var attribute = ItemLookup.attribute(args[2]);
                 apply(player, item -> ItemEditor.removeAttribute(item, attribute));
             }
@@ -283,10 +283,10 @@ public final class ItemEditCommand extends NexusCommand {
     }
 
     private void potion(Player player, String[] args) {
-        need(args, 2, Tr.t("/item edit potion <add|remove|type|clear>"));
+        need(args, 2, "/item edit potion <add|remove|type|clear>");
         switch (ItemLookup.normalize(args[1])) {
             case "add", "ajouter" -> {
-                need(args, 4, Tr.t("/item edit potion add <effet> <secondes> [niveau]"));
+                need(args, 4, "/item edit potion add <effet> <secondes> [niveau]");
                 var effect = ItemLookup.effect(args[2]);
                 int seconds = ItemLookup.integer(args[3], 1, Integer.MAX_VALUE / 20, Tr.t("La durée"));
                 int level = args.length > 4
@@ -294,12 +294,12 @@ public final class ItemEditCommand extends NexusCommand {
                 apply(player, item -> ItemEditor.potionEffect(item, effect, seconds, level));
             }
             case "remove", "retirer" -> {
-                need(args, 3, Tr.t("/item edit potion remove <effet>"));
+                need(args, 3, "/item edit potion remove <effet>");
                 var effect = ItemLookup.effect(args[2]);
                 apply(player, item -> ItemEditor.removePotionEffect(item, effect));
             }
             case "type" -> {
-                need(args, 3, Tr.t("/item edit potion type <potion|reset>"));
+                need(args, 3, "/item edit potion type <potion|reset>");
                 var type = ItemLookup.reset(args[2]) ? null : ItemLookup.potionType(args[2]);
                 apply(player, item -> ItemEditor.potionType(item, type));
             }
@@ -329,28 +329,28 @@ public final class ItemEditCommand extends NexusCommand {
             return lines;
         }
         lines.put(Tr.t("Nom"), meta.hasCustomName() ? ItemText.plain(meta.customName()) : Tr.t("par défaut"));
-        lines.put(Tr.t("Description"), meta.hasLore() ? meta.lore().size() + " lignes" : "aucune");
+        lines.put(Tr.t("Description"), meta.hasLore() ? meta.lore().size() + Tr.t(" lignes") : Tr.t("aucune"));
         StringBuilder enchants = new StringBuilder();
         meta.getEnchants().forEach((enchantment, level) -> enchants.append(enchants.isEmpty() ? "" : ", ")
                 .append(ItemLookup.shortKey(enchantment)).append(' ').append(level));
-        lines.put(Tr.t("Enchantements"), enchants.isEmpty() ? "aucun" : enchants.toString());
-        lines.put(Tr.t("Masquages"), meta.getItemFlags().isEmpty() ? "aucun" : String.valueOf(meta.getItemFlags().size()));
+        lines.put(Tr.t("Enchantements"), enchants.isEmpty() ? Tr.t("aucun") : enchants.toString());
+        lines.put(Tr.t("Masquages"), meta.getItemFlags().isEmpty() ? Tr.t("aucun") : String.valueOf(meta.getItemFlags().size()));
         lines.put(Tr.t("Attributs"), meta.hasAttributeModifiers()
                 ? String.valueOf(meta.getAttributeModifiers().size()) : Tr.t("par défaut"));
         if (meta instanceof Damageable damageable && (damageable.hasMaxDamage() || item.getType().getMaxDurability() > 0)) {
             int max = damageable.hasMaxDamage() ? damageable.getMaxDamage() : item.getType().getMaxDurability();
             lines.put(Tr.t("Durabilité"), Math.max(0, max - damageable.getDamage()) + " / " + max);
         }
-        lines.put(Tr.t("Incassable"), meta.isUnbreakable() ? "oui" : "non");
+        lines.put(Tr.t("Incassable"), meta.isUnbreakable() ? Tr.t("oui") : Tr.t("non"));
         lines.put(Tr.t("Brillance"), meta.hasEnchantmentGlintOverride()
                 ? (meta.getEnchantmentGlintOverride() ? Tr.t("forcée") : Tr.t("retirée")) : Tr.t("par défaut"));
         lines.put(Tr.t("Rareté"), meta.hasRarity() ? ItemNaming.rarity(meta.getRarity()) : Tr.t("par défaut"));
-        lines.put(Tr.t("Modèle personnalisé"), meta.hasCustomModelData() ? String.valueOf(meta.getCustomModelData()) : "aucun");
+        lines.put(Tr.t("Modèle personnalisé"), meta.hasCustomModelData() ? String.valueOf(meta.getCustomModelData()) : Tr.t("aucun"));
         lines.put(Tr.t("Modèle d'objet"), meta.hasItemModel() ? meta.getItemModel().toString() : Tr.t("par défaut"));
-        lines.put("Style d'infobulle", meta.hasTooltipStyle() ? meta.getTooltipStyle().toString() : Tr.t("par défaut"));
-        lines.put(Tr.t("Planeur"), meta.isGlider() ? "oui" : "non");
-        lines.put(Tr.t("Résiste au feu"), meta.hasDamageResistant() ? "oui" : "non");
-        lines.put(Tr.t("Infobulle masquée"), meta.isHideTooltip() ? "oui" : "non");
+        lines.put(Tr.t("Style d'infobulle"), meta.hasTooltipStyle() ? meta.getTooltipStyle().toString() : Tr.t("par défaut"));
+        lines.put(Tr.t("Planeur"), meta.isGlider() ? Tr.t("oui") : Tr.t("non"));
+        lines.put(Tr.t("Résiste au feu"), meta.hasDamageResistant() ? Tr.t("oui") : Tr.t("non"));
+        lines.put(Tr.t("Infobulle masquée"), meta.isHideTooltip() ? Tr.t("oui") : Tr.t("non"));
         lines.put(Tr.t("Annulations possibles"), String.valueOf(undoable));
         return lines;
     }
@@ -361,7 +361,7 @@ public final class ItemEditCommand extends NexusCommand {
 
     private static void need(String[] args, int length, String usage) {
         if (args.length < length) {
-            throw new EditException("Utilisation : " + usage);
+            throw new EditException(Tr.t("Utilisation : ") + usage);
         }
     }
 

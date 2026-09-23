@@ -85,7 +85,7 @@ final class ItemPotionMenu {
         PotionType base = meta.getBasePotionType();
         return Guis.item(Material.GLASS_BOTTLE, ItemStyle.heading(Tr.t("Potion de base")), ItemStyle.card(Tr.t("Base"))
                 .blank()
-                .stat(Card.FLAG, Tr.t("Actuelle"), base == null ? "aucune" : ItemLookup.shortKey(base))
+                .stat(Card.FLAG, Tr.t("Actuelle"), base == null ? Tr.t("aucune") : ItemLookup.shortKey(base))
                 .blank()
                 .click(Tr.t("Clic gauche"), Tr.t("pour choisir la base"))
                 .click(Tr.t("Clic droit"), Tr.t("pour la retirer"))

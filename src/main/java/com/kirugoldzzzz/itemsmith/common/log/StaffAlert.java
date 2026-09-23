@@ -22,7 +22,7 @@ import java.util.logging.Level;
 
 public final class StaffAlert {
 
-    private static final DateTimeFormatter STAMP = DateTimeFormatter.ofPattern(Tr.t("dd/MM HH:mm:ss"));
+    private static final DateTimeFormatter STAMP = DateTimeFormatter.ofPattern("dd/MM HH:mm:ss");
     private static final int WRAP = 38;
 
     public enum Severity {

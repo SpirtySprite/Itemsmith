@@ -65,7 +65,7 @@ final class LoreEdit {
 
     private static void ensureRoom(List<Component> lore) {
         if (lore.size() >= MAX_LINES) {
-            throw new EditException(Tr.t("La description ne peut pas dépasser ") + MAX_LINES + " lignes");
+            throw new EditException(Tr.t("La description ne peut pas dépasser ") + MAX_LINES + Tr.t(" lignes"));
         }
     }
 

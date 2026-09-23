@@ -193,7 +193,7 @@ public final class ItemEditMenu {
             gui.setItem(3, 8, ItemStyle.button(Material.DAMAGED_ANVIL, Tr.t("Durabilité"), ItemStyle.card(Tr.t("Usure"))
                     .blank()
                     .stat(Card.FLAG, Tr.t("Dégâts"), damageable.getDamage())
-                    .stat(Card.FLAG, Tr.t("Durabilité maximale"), max > 0 ? max + (damageable.hasMaxDamage() ? "" : Tr.t(" (défaut)")) : "aucune")
+                    .stat(Card.FLAG, Tr.t("Durabilité maximale"), max > 0 ? max + (damageable.hasMaxDamage() ? "" : Tr.t(" (défaut)")) : Tr.t("aucune"))
                     .blank()
                     .click(Tr.t("Clic gauche"), Tr.t("pour régler les dégâts"))
                     .click(Tr.t("Clic droit"), Tr.t("pour régler le maximum"))
@@ -221,7 +221,7 @@ public final class ItemEditMenu {
     private void appearance(Gui gui, Player player, ItemStack item, ItemMeta meta) {
         gui.setItem(4, 2, ItemStyle.button(Material.ITEM_FRAME, Tr.t("Modèle personnalisé"), ItemStyle.card(Tr.t("Pack de ressources"))
                 .blank()
-                .stat(Card.FLAG, Tr.t("Valeur"), meta.hasCustomModelData() ? meta.getCustomModelData() : "aucune")
+                .stat(Card.FLAG, Tr.t("Valeur"), meta.hasCustomModelData() ? meta.getCustomModelData() : Tr.t("aucune"))
                 .blank()
                 .click(Tr.t("Clic gauche"), Tr.t("pour choisir un nombre"))
                 .click(Tr.t("Clic droit"), Tr.t("pour retirer")), meta.hasCustomModelData(), event -> {
@@ -240,12 +240,12 @@ public final class ItemEditMenu {
                 meta.hasItemModel() ? meta.getItemModel().toString() : null,
                 text -> held -> ItemEditor.itemModel(held, ItemLookup.key(text)),
                 held -> ItemEditor.itemModel(held, null)));
-        gui.setItem(4, 4, keyButton(Material.PAPER, "Style d'infobulle", "Cadre d'infobulle",
+        gui.setItem(4, 4, keyButton(Material.PAPER, Tr.t("Style d'infobulle"), Tr.t("Cadre d'infobulle"),
                 meta.hasTooltipStyle() ? meta.getTooltipStyle().toString() : null,
                 text -> held -> ItemEditor.tooltipStyle(held, ItemLookup.key(text)),
                 held -> ItemEditor.tooltipStyle(held, null)));
 
-        gui.setItem(4, 5, ItemStyle.button(Material.CRAFTING_TABLE, Tr.t("Matériau"), ItemStyle.card("Type d'objet")
+        gui.setItem(4, 5, ItemStyle.button(Material.CRAFTING_TABLE, Tr.t("Matériau"), ItemStyle.card(Tr.t("Type d'objet"))
                 .blank()
                 .stat(Card.FLAG, Tr.t("Actuel"), item.getType().getKey().getKey())
                 .line(Tr.t("Le nom, la description et les données restent"))
@@ -258,7 +258,7 @@ public final class ItemEditMenu {
             }, () -> open(viewer));
         }));
 
-        gui.setItem(4, 6, ItemStyle.button(Material.LAPIS_LAZULI, Tr.t("Enchantabilité"), ItemStyle.card("Table d'enchantement")
+        gui.setItem(4, 6, ItemStyle.button(Material.LAPIS_LAZULI, Tr.t("Enchantabilité"), ItemStyle.card(Tr.t("Table d'enchantement"))
                 .blank()
                 .stat(Card.STAR, Tr.t("Valeur"), meta.hasEnchantable() ? meta.getEnchantable() : Tr.t("par défaut"))
                 .blank()
@@ -350,8 +350,8 @@ public final class ItemEditMenu {
             gui.setItem(5, 6, ItemStyle.button(Material.SENTRY_ARMOR_TRIM_SMITHING_TEMPLATE, Tr.t("Garniture"), ItemStyle.card(Tr.t("Armure"))
                     .blank()
                     .stat(Card.STAR, Tr.t("Actuelle"), armor.hasTrim()
-                            ? ItemLookup.shortKey(armor.getTrim().getPattern()) + " en " + ItemLookup.shortKey(armor.getTrim().getMaterial())
-                            : "aucune")
+                            ? ItemLookup.shortKey(armor.getTrim().getPattern()) + Tr.t(" en ") + ItemLookup.shortKey(armor.getTrim().getMaterial())
+                            : Tr.t("aucune"))
                     .blank()
                     .click(Tr.t("Clic gauche"), Tr.t("pour choisir une garniture"))
                     .click(Tr.t("Clic droit"), Tr.t("pour la retirer")), armor.hasTrim(), event -> {
@@ -446,7 +446,7 @@ public final class ItemEditMenu {
         return Guis.item(Material.BOOK, ItemStyle.heading(Tr.t("Commandes")), ItemStyle.card(Tr.t("Aide"))
                 .section(Tr.t("Description"))
                 .line(Tr.t("Tout se fait aussi en commande :"))
-                .line(Palette.WARNING + Tr.t("/item edit <champ> ..."))
+                .line(Palette.WARNING + "/item edit <champ> ...")
                 .blank()
                 .click(Tr.t("pour afficher la liste dans le chat"))
                 .build(), false, event -> {
