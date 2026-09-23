@@ -1,5 +1,7 @@
 package com.kirugoldzzzz.itemsmith;
 
+import com.kirugoldzzzz.itemsmith.common.text.Tr;
+
 import com.foliagui.builder.item.ItemBuilder;
 import com.foliagui.gui.Gui;
 import com.foliagui.item.GuiItem;
@@ -77,164 +79,164 @@ public final class ItemEditMenu {
     }
 
     private void identity(Gui gui, Player player, ItemStack item, ItemMeta meta) {
-        gui.setItem(2, 2, ItemStyle.button(Material.NAME_TAG, "Nom", ItemStyle.card("Nom affiché")
-                .section("Actuel")
-                .line(meta.hasCustomName() ? ItemText.plain(meta.customName()) : "Nom par défaut")
-                .line(Palette.MUTED + "Texte long : /item edit name")
+        gui.setItem(2, 2, ItemStyle.button(Material.NAME_TAG, Tr.t("Nom"), ItemStyle.card(Tr.t("Nom affiché"))
+                .section(Tr.t("Actuel"))
+                .line(meta.hasCustomName() ? ItemText.plain(meta.customName()) : Tr.t("Nom par défaut"))
+                .line(Palette.MUTED + Tr.t("Texte long : /item edit name"))
                 .blank()
-                .click("Clic gauche", "pour renommer")
-                .click("Clic droit", "pour réinitialiser"), meta.hasCustomName(), event -> {
+                .click(Tr.t("Clic gauche"), Tr.t("pour renommer"))
+                .click(Tr.t("Clic droit"), Tr.t("pour réinitialiser")), meta.hasCustomName(), event -> {
             Player viewer = viewer(event.getWhoClicked());
             if (event.isRightClick()) {
                 apply(viewer, ItemEditor::resetName);
                 return;
             }
-            ItemPrompts.edit(service, viewer, "Nouveau nom", true,
+            ItemPrompts.edit(service, viewer, Tr.t("Nouveau nom"), true,
                     text -> held -> ItemEditor.name(held, text), () -> open(viewer));
         }));
 
         int lines = meta.hasLore() ? meta.lore().size() : 0;
-        gui.setItem(2, 3, ItemStyle.button(Material.WRITABLE_BOOK, "Description", ItemStyle.card("Lore")
+        gui.setItem(2, 3, ItemStyle.button(Material.WRITABLE_BOOK, Tr.t("Description"), ItemStyle.card(Tr.t("Lore"))
                 .blank()
-                .count(Card.AMOUNT, "Lignes", lines)
+                .count(Card.AMOUNT, Tr.t("Lignes"), lines)
                 .blank()
-                .click("pour gérer les lignes"), lines > 0, event -> lore.open(viewer(event.getWhoClicked()))));
+                .click(Tr.t("pour gérer les lignes")), lines > 0, event -> lore.open(viewer(event.getWhoClicked()))));
 
         int enchantCount = meta.getEnchants().size();
-        gui.setItem(2, 4, ItemStyle.button(Material.ENCHANTED_BOOK, "Enchantements", ItemStyle.card("Enchantements")
+        gui.setItem(2, 4, ItemStyle.button(Material.ENCHANTED_BOOK, Tr.t("Enchantements"), ItemStyle.card(Tr.t("Enchantements"))
                 .blank()
-                .count(Card.STAR, "Appliqués", enchantCount)
-                .line("Niveaux jusqu'à " + ItemLookup.MAX_ENCHANT_LEVEL + ", sans restriction")
+                .count(Card.STAR, Tr.t("Appliqués"), enchantCount)
+                .line(Tr.t("Niveaux jusqu'à ") + ItemLookup.MAX_ENCHANT_LEVEL + Tr.t(", sans restriction"))
                 .blank()
-                .click("pour gérer les enchantements"), enchantCount > 0,
+                .click(Tr.t("pour gérer les enchantements")), enchantCount > 0,
                 event -> enchants.open(viewer(event.getWhoClicked()))));
 
-        gui.setItem(2, 5, ItemStyle.button(Material.GOLDEN_SWORD, "Attributs", ItemStyle.card("Attributs")
+        gui.setItem(2, 5, ItemStyle.button(Material.GOLDEN_SWORD, Tr.t("Attributs"), ItemStyle.card(Tr.t("Attributs"))
                 .blank()
-                .stat(Card.FLAG, "Modificateurs", meta.hasAttributeModifiers()
-                        ? String.valueOf(meta.getAttributeModifiers().size()) : "par défaut")
+                .stat(Card.FLAG, Tr.t("Modificateurs"), meta.hasAttributeModifiers()
+                        ? String.valueOf(meta.getAttributeModifiers().size()) : Tr.t("par défaut"))
                 .blank()
-                .click("pour gérer les attributs"), meta.hasAttributeModifiers(),
+                .click(Tr.t("pour gérer les attributs")), meta.hasAttributeModifiers(),
                 event -> attributes.open(viewer(event.getWhoClicked()))));
 
-        gui.setItem(2, 6, ItemStyle.button(Material.SPYGLASS, "Masquages", ItemStyle.card("Infobulle")
+        gui.setItem(2, 6, ItemStyle.button(Material.SPYGLASS, Tr.t("Masquages"), ItemStyle.card(Tr.t("Infobulle"))
                 .blank()
-                .stat(Card.FLAG, "Infos masquées", meta.getItemFlags().size() + " / "
+                .stat(Card.FLAG, Tr.t("Infos masquées"), meta.getItemFlags().size() + " / "
                         + ItemFlag.values().length)
                 .blank()
-                .click("pour choisir quoi masquer"), !meta.getItemFlags().isEmpty(),
+                .click(Tr.t("pour choisir quoi masquer")), !meta.getItemFlags().isEmpty(),
                 event -> flags.open(viewer(event.getWhoClicked()))));
 
-        gui.setItem(2, 7, ItemStyle.button(Material.BUNDLE, "Quantité", ItemStyle.card("Pile")
+        gui.setItem(2, 7, ItemStyle.button(Material.BUNDLE, Tr.t("Quantité"), ItemStyle.card(Tr.t("Pile"))
                 .blank()
-                .count(Card.AMOUNT, "Quantité", item.getAmount())
+                .count(Card.AMOUNT, Tr.t("Quantité"), item.getAmount())
                 .blank()
-                .click("pour choisir la quantité"), false, event -> {
+                .click(Tr.t("pour choisir la quantité")), false, event -> {
             Player viewer = viewer(event.getWhoClicked());
-            ItemPrompts.edit(service, viewer, "Quantité 1 à 99", false, text -> {
-                int amount = ItemLookup.integer(text, 1, ItemLookup.MAX_STACK, "La quantité");
+            ItemPrompts.edit(service, viewer, Tr.t("Quantité 1 à 99"), false, text -> {
+                int amount = ItemLookup.integer(text, 1, ItemLookup.MAX_STACK, Tr.t("La quantité"));
                 return held -> ItemEditor.amount(held, amount);
             }, () -> open(viewer));
         }));
 
-        gui.setItem(2, 8, ItemStyle.button(Material.SHULKER_BOX, "Pile maximale", ItemStyle.card("Pile")
+        gui.setItem(2, 8, ItemStyle.button(Material.SHULKER_BOX, Tr.t("Pile maximale"), ItemStyle.card(Tr.t("Pile"))
                 .blank()
-                .stat(Card.AMOUNT, "Taille maximale", item.getMaxStackSize() + (meta.hasMaxStackSize() ? "" : " (défaut)"))
+                .stat(Card.AMOUNT, Tr.t("Taille maximale"), item.getMaxStackSize() + (meta.hasMaxStackSize() ? "" : Tr.t(" (défaut)")))
                 .blank()
-                .click("Clic gauche", "pour la changer")
-                .click("Clic droit", "pour la réinitialiser"), meta.hasMaxStackSize(), event -> {
+                .click(Tr.t("Clic gauche"), Tr.t("pour la changer"))
+                .click(Tr.t("Clic droit"), Tr.t("pour la réinitialiser")), meta.hasMaxStackSize(), event -> {
             Player viewer = viewer(event.getWhoClicked());
             if (event.isRightClick()) {
                 apply(viewer, held -> ItemEditor.maxStack(held, null));
                 return;
             }
-            ItemPrompts.edit(service, viewer, "Taille 1 à 99", false, text -> {
-                int size = ItemLookup.integer(text, 1, ItemLookup.MAX_STACK, "La taille de pile");
+            ItemPrompts.edit(service, viewer, Tr.t("Taille 1 à 99"), false, text -> {
+                int size = ItemLookup.integer(text, 1, ItemLookup.MAX_STACK, Tr.t("La taille de pile"));
                 return held -> ItemEditor.maxStack(held, size);
             }, () -> open(viewer));
         }));
     }
 
     private void toggles(Gui gui, Player player, ItemStack item, ItemMeta meta) {
-        gui.setItem(3, 2, toggle(Material.BEDROCK, "Incassable", meta.isUnbreakable(),
-                "L'objet ne s'use jamais", ItemEditor::unbreakable));
-        gui.setItem(3, 4, toggle(Material.ELYTRA, "Planeur", meta.isGlider(),
-                "Permet de planer comme des élytres", ItemEditor::glider));
-        gui.setItem(3, 5, toggle(Material.MAGMA_CREAM, "Résiste au feu", meta.hasDamageResistant(),
-                "Ne brûle pas dans la lave ni le feu", ItemEditor::fireResistant));
-        gui.setItem(3, 6, toggle(Material.GLASS, "Infobulle masquée", meta.isHideTooltip(),
-                "Plus aucune infobulle au survol", ItemEditor::hideTooltip));
+        gui.setItem(3, 2, toggle(Material.BEDROCK, Tr.t("Incassable"), meta.isUnbreakable(),
+                Tr.t("L'objet ne s'use jamais"), ItemEditor::unbreakable));
+        gui.setItem(3, 4, toggle(Material.ELYTRA, Tr.t("Planeur"), meta.isGlider(),
+                Tr.t("Permet de planer comme des élytres"), ItemEditor::glider));
+        gui.setItem(3, 5, toggle(Material.MAGMA_CREAM, Tr.t("Résiste au feu"), meta.hasDamageResistant(),
+                Tr.t("Ne brûle pas dans la lave ni le feu"), ItemEditor::fireResistant));
+        gui.setItem(3, 6, toggle(Material.GLASS, Tr.t("Infobulle masquée"), meta.isHideTooltip(),
+                Tr.t("Plus aucune infobulle au survol"), ItemEditor::hideTooltip));
 
         Boolean glint = meta.hasEnchantmentGlintOverride() ? meta.getEnchantmentGlintOverride() : null;
-        gui.setItem(3, 3, ItemStyle.button(Material.EXPERIENCE_BOTTLE, "Brillance", ItemStyle.card("Reflet")
+        gui.setItem(3, 3, ItemStyle.button(Material.EXPERIENCE_BOTTLE, Tr.t("Brillance"), ItemStyle.card(Tr.t("Reflet"))
                 .blank()
-                .stat(Card.STAR, "Actuelle", glint == null ? "par défaut" : glint ? "forcée" : "retirée")
+                .stat(Card.STAR, Tr.t("Actuelle"), glint == null ? Tr.t("par défaut") : glint ? Tr.t("forcée") : Tr.t("retirée"))
                 .blank()
-                .click("pour passer à l'état suivant"), Boolean.TRUE.equals(glint), event -> {
+                .click(Tr.t("pour passer à l'état suivant")), Boolean.TRUE.equals(glint), event -> {
             Boolean next = glint == null ? Boolean.TRUE : glint ? Boolean.FALSE : null;
             apply(viewer(event.getWhoClicked()), held -> ItemEditor.glint(held, next));
         }));
 
         ItemRarity rarity = meta.hasRarity() ? meta.getRarity() : null;
-        gui.setItem(3, 7, ItemStyle.button(Material.AMETHYST_SHARD, "Rareté", ItemStyle.card("Couleur du nom")
+        gui.setItem(3, 7, ItemStyle.button(Material.AMETHYST_SHARD, Tr.t("Rareté"), ItemStyle.card(Tr.t("Couleur du nom"))
                 .blank()
-                .stat(Card.STAR, "Actuelle", ItemNaming.rarity(rarity))
+                .stat(Card.STAR, Tr.t("Actuelle"), ItemNaming.rarity(rarity))
                 .blank()
-                .click("Clic gauche", "pour la rareté suivante")
-                .click("Clic droit", "pour réinitialiser"), rarity != null, event -> {
+                .click(Tr.t("Clic gauche"), Tr.t("pour la rareté suivante"))
+                .click(Tr.t("Clic droit"), Tr.t("pour réinitialiser")), rarity != null, event -> {
             ItemRarity next = event.isRightClick() ? null : nextRarity(rarity);
             apply(viewer(event.getWhoClicked()), held -> ItemEditor.rarity(held, next));
         }));
 
         if (meta instanceof Damageable damageable) {
             int max = damageable.hasMaxDamage() ? damageable.getMaxDamage() : item.getType().getMaxDurability();
-            gui.setItem(3, 8, ItemStyle.button(Material.DAMAGED_ANVIL, "Durabilité", ItemStyle.card("Usure")
+            gui.setItem(3, 8, ItemStyle.button(Material.DAMAGED_ANVIL, Tr.t("Durabilité"), ItemStyle.card(Tr.t("Usure"))
                     .blank()
-                    .stat(Card.FLAG, "Dégâts", damageable.getDamage())
-                    .stat(Card.FLAG, "Durabilité maximale", max > 0 ? max + (damageable.hasMaxDamage() ? "" : " (défaut)") : "aucune")
+                    .stat(Card.FLAG, Tr.t("Dégâts"), damageable.getDamage())
+                    .stat(Card.FLAG, Tr.t("Durabilité maximale"), max > 0 ? max + (damageable.hasMaxDamage() ? "" : Tr.t(" (défaut)")) : "aucune")
                     .blank()
-                    .click("Clic gauche", "pour régler les dégâts")
-                    .click("Clic droit", "pour régler le maximum")
-                    .click("Maj + clic droit", "pour réinitialiser le maximum"), damageable.hasMaxDamage(), event -> {
+                    .click(Tr.t("Clic gauche"), Tr.t("pour régler les dégâts"))
+                    .click(Tr.t("Clic droit"), Tr.t("pour régler le maximum"))
+                    .click(Tr.t("Maj + clic droit"), Tr.t("pour réinitialiser le maximum")), damageable.hasMaxDamage(), event -> {
                 Player viewer = viewer(event.getWhoClicked());
                 if (event.getClick() == ClickType.SHIFT_RIGHT) {
                     apply(viewer, held -> ItemEditor.maxDamage(held, null));
                 } else if (event.isRightClick()) {
-                    ItemPrompts.edit(service, viewer, "Durabilité max", false, text -> {
-                        int value = ItemLookup.integer(text, 1, Integer.MAX_VALUE, "La durabilité maximale");
+                    ItemPrompts.edit(service, viewer, Tr.t("Durabilité max"), false, text -> {
+                        int value = ItemLookup.integer(text, 1, Integer.MAX_VALUE, Tr.t("La durabilité maximale"));
                         return held -> ItemEditor.maxDamage(held, value);
                     }, () -> open(viewer));
                 } else {
-                    ItemPrompts.edit(service, viewer, "Dégâts", false, text -> {
-                        int value = ItemLookup.integer(text, 0, Integer.MAX_VALUE, "Les dégâts");
+                    ItemPrompts.edit(service, viewer, Tr.t("Dégâts"), false, text -> {
+                        int value = ItemLookup.integer(text, 0, Integer.MAX_VALUE, Tr.t("Les dégâts"));
                         return held -> ItemEditor.damage(held, value);
                     }, () -> open(viewer));
                 }
             }));
         } else {
-            gui.setItem(3, 8, ItemStyle.unavailable(Material.DAMAGED_ANVIL, "Durabilité", "Cet objet n'a pas de durabilité"));
+            gui.setItem(3, 8, ItemStyle.unavailable(Material.DAMAGED_ANVIL, Tr.t("Durabilité"), Tr.t("Cet objet n'a pas de durabilité")));
         }
     }
 
     private void appearance(Gui gui, Player player, ItemStack item, ItemMeta meta) {
-        gui.setItem(4, 2, ItemStyle.button(Material.ITEM_FRAME, "Modèle personnalisé", ItemStyle.card("Pack de ressources")
+        gui.setItem(4, 2, ItemStyle.button(Material.ITEM_FRAME, Tr.t("Modèle personnalisé"), ItemStyle.card(Tr.t("Pack de ressources"))
                 .blank()
-                .stat(Card.FLAG, "Valeur", meta.hasCustomModelData() ? meta.getCustomModelData() : "aucune")
+                .stat(Card.FLAG, Tr.t("Valeur"), meta.hasCustomModelData() ? meta.getCustomModelData() : "aucune")
                 .blank()
-                .click("Clic gauche", "pour choisir un nombre")
-                .click("Clic droit", "pour retirer"), meta.hasCustomModelData(), event -> {
+                .click(Tr.t("Clic gauche"), Tr.t("pour choisir un nombre"))
+                .click(Tr.t("Clic droit"), Tr.t("pour retirer")), meta.hasCustomModelData(), event -> {
             Player viewer = viewer(event.getWhoClicked());
             if (event.isRightClick()) {
                 apply(viewer, held -> ItemEditor.customModelData(held, null));
                 return;
             }
-            ItemPrompts.edit(service, viewer, "Modèle", false, text -> {
-                int value = ItemLookup.integer(text, Integer.MIN_VALUE, Integer.MAX_VALUE, "Le modèle");
+            ItemPrompts.edit(service, viewer, Tr.t("Modèle"), false, text -> {
+                int value = ItemLookup.integer(text, Integer.MIN_VALUE, Integer.MAX_VALUE, Tr.t("Le modèle"));
                 return held -> ItemEditor.customModelData(held, value);
             }, () -> open(viewer));
         }));
 
-        gui.setItem(4, 3, keyButton(Material.ARMOR_STAND, "Modèle d'objet", "Modèle 3D",
+        gui.setItem(4, 3, keyButton(Material.ARMOR_STAND, Tr.t("Modèle d'objet"), Tr.t("Modèle 3D"),
                 meta.hasItemModel() ? meta.getItemModel().toString() : null,
                 text -> held -> ItemEditor.itemModel(held, ItemLookup.key(text)),
                 held -> ItemEditor.itemModel(held, null)));
@@ -243,116 +245,116 @@ public final class ItemEditMenu {
                 text -> held -> ItemEditor.tooltipStyle(held, ItemLookup.key(text)),
                 held -> ItemEditor.tooltipStyle(held, null)));
 
-        gui.setItem(4, 5, ItemStyle.button(Material.CRAFTING_TABLE, "Matériau", ItemStyle.card("Type d'objet")
+        gui.setItem(4, 5, ItemStyle.button(Material.CRAFTING_TABLE, Tr.t("Matériau"), ItemStyle.card("Type d'objet")
                 .blank()
-                .stat(Card.FLAG, "Actuel", item.getType().getKey().getKey())
-                .line("Le nom, la description et les données restent")
+                .stat(Card.FLAG, Tr.t("Actuel"), item.getType().getKey().getKey())
+                .line(Tr.t("Le nom, la description et les données restent"))
                 .blank()
-                .click("pour changer de matériau"), false, event -> {
+                .click(Tr.t("pour changer de matériau")), false, event -> {
             Player viewer = viewer(event.getWhoClicked());
-            ItemPrompts.edit(service, viewer, "Matériau", false, text -> {
+            ItemPrompts.edit(service, viewer, Tr.t("Matériau"), false, text -> {
                 Material material = ItemLookup.material(text);
                 return held -> ItemEditor.type(held, material);
             }, () -> open(viewer));
         }));
 
-        gui.setItem(4, 6, ItemStyle.button(Material.LAPIS_LAZULI, "Enchantabilité", ItemStyle.card("Table d'enchantement")
+        gui.setItem(4, 6, ItemStyle.button(Material.LAPIS_LAZULI, Tr.t("Enchantabilité"), ItemStyle.card("Table d'enchantement")
                 .blank()
-                .stat(Card.STAR, "Valeur", meta.hasEnchantable() ? meta.getEnchantable() : "par défaut")
+                .stat(Card.STAR, Tr.t("Valeur"), meta.hasEnchantable() ? meta.getEnchantable() : Tr.t("par défaut"))
                 .blank()
-                .click("Clic gauche", "pour choisir la valeur")
-                .click("Clic droit", "pour réinitialiser"), meta.hasEnchantable(), event -> {
+                .click(Tr.t("Clic gauche"), Tr.t("pour choisir la valeur"))
+                .click(Tr.t("Clic droit"), Tr.t("pour réinitialiser")), meta.hasEnchantable(), event -> {
             Player viewer = viewer(event.getWhoClicked());
             if (event.isRightClick()) {
                 apply(viewer, held -> ItemEditor.enchantable(held, null));
                 return;
             }
-            ItemPrompts.edit(service, viewer, "Enchantabilité", false, text -> {
-                int value = ItemLookup.integer(text, 1, Integer.MAX_VALUE, "L'enchantabilité");
+            ItemPrompts.edit(service, viewer, Tr.t("Enchantabilité"), false, text -> {
+                int value = ItemLookup.integer(text, 1, Integer.MAX_VALUE, Tr.t("L'enchantabilité"));
                 return held -> ItemEditor.enchantable(held, value);
             }, () -> open(viewer));
         }));
 
         if (meta instanceof Repairable repairable) {
-            gui.setItem(4, 7, ItemStyle.button(Material.ANVIL, "Coût de réparation", ItemStyle.card("Enclume")
+            gui.setItem(4, 7, ItemStyle.button(Material.ANVIL, Tr.t("Coût de réparation"), ItemStyle.card(Tr.t("Enclume"))
                     .blank()
-                    .stat(Card.FLAG, "Niveaux", repairable.hasRepairCost() ? repairable.getRepairCost() : 0)
+                    .stat(Card.FLAG, Tr.t("Niveaux"), repairable.hasRepairCost() ? repairable.getRepairCost() : 0)
                     .blank()
-                    .click("pour choisir le coût"), false, event -> {
+                    .click(Tr.t("pour choisir le coût")), false, event -> {
                 Player viewer = viewer(event.getWhoClicked());
-                ItemPrompts.edit(service, viewer, "Coût", false, text -> {
-                    int value = ItemLookup.integer(text, 0, Integer.MAX_VALUE, "Le coût de réparation");
+                ItemPrompts.edit(service, viewer, Tr.t("Coût"), false, text -> {
+                    int value = ItemLookup.integer(text, 0, Integer.MAX_VALUE, Tr.t("Le coût de réparation"));
                     return held -> ItemEditor.repairCost(held, value);
                 }, () -> open(viewer));
             }));
         } else {
-            gui.setItem(4, 7, ItemStyle.unavailable(Material.ANVIL, "Coût de réparation", "Cet objet ne passe pas à l'enclume"));
+            gui.setItem(4, 7, ItemStyle.unavailable(Material.ANVIL, Tr.t("Coût de réparation"), Tr.t("Cet objet ne passe pas à l'enclume")));
         }
 
-        Card summary = ItemStyle.card("Résumé").section("Objet");
+        Card summary = ItemStyle.card(Tr.t("Résumé")).section(Tr.t("Objet"));
         for (Map.Entry<String, String> line : ItemEditCommand.describe(item, service.undoable(player.getUniqueId())).entrySet()) {
             summary.stat(Card.CATEGORY, line.getKey(), line.getValue());
         }
-        gui.setItem(4, 8, Guis.display(Material.KNOWLEDGE_BOOK, ItemStyle.heading("Résumé"), summary.build()));
+        gui.setItem(4, 8, Guis.display(Material.KNOWLEDGE_BOOK, ItemStyle.heading(Tr.t("Résumé")), summary.build()));
     }
 
     private void specifics(Gui gui, Player player, ItemMeta meta) {
         if (meta instanceof LeatherArmorMeta || meta instanceof PotionMeta) {
-            gui.setItem(5, 3, ItemStyle.button(Material.RED_DYE, "Couleur", ItemStyle.card("Teinture")
+            gui.setItem(5, 3, ItemStyle.button(Material.RED_DYE, Tr.t("Couleur"), ItemStyle.card(Tr.t("Teinture"))
                     .blank()
-                    .line("Couleur du cuir ou de la potion")
+                    .line(Tr.t("Couleur du cuir ou de la potion"))
                     .blank()
-                    .click("Clic gauche", "pour choisir #RRGGBB ou un nom")
-                    .click("Clic droit", "pour réinitialiser"), false, event -> {
+                    .click(Tr.t("Clic gauche"), Tr.t("pour choisir #RRGGBB ou un nom"))
+                    .click(Tr.t("Clic droit"), Tr.t("pour réinitialiser")), false, event -> {
                 Player viewer = viewer(event.getWhoClicked());
                 if (event.isRightClick()) {
                     apply(viewer, held -> ItemEditor.color(held, null));
                     return;
                 }
-                ItemPrompts.edit(service, viewer, "Couleur", false, text -> {
+                ItemPrompts.edit(service, viewer, Tr.t("Couleur"), false, text -> {
                     var color = ItemLookup.color(text);
                     return held -> ItemEditor.color(held, color);
                 }, () -> open(viewer));
             }));
         } else {
-            gui.setItem(5, 3, ItemStyle.unavailable(Material.RED_DYE, "Couleur", "Seuls le cuir et les potions se teignent"));
+            gui.setItem(5, 3, ItemStyle.unavailable(Material.RED_DYE, Tr.t("Couleur"), Tr.t("Seuls le cuir et les potions se teignent")));
         }
 
         if (meta instanceof SkullMeta) {
-            gui.setItem(5, 4, ItemStyle.button(Material.PLAYER_HEAD, "Tête", ItemStyle.card("Skin")
+            gui.setItem(5, 4, ItemStyle.button(Material.PLAYER_HEAD, Tr.t("Tête"), ItemStyle.card(Tr.t("Skin"))
                     .blank()
-                    .line("Applique le skin d'un joueur")
-                    .line("Texture brute : /item edit texture")
+                    .line(Tr.t("Applique le skin d'un joueur"))
+                    .line(Tr.t("Texture brute : /item edit texture"))
                     .blank()
-                    .click("pour saisir un pseudo"), false, event -> {
+                    .click(Tr.t("pour saisir un pseudo")), false, event -> {
                 Player viewer = viewer(event.getWhoClicked());
-                ItemPrompts.ask(viewer, "Pseudo", false, name -> service.skullOf(viewer, name, () -> open(viewer)),
+                ItemPrompts.ask(viewer, Tr.t("Pseudo"), false, name -> service.skullOf(viewer, name, () -> open(viewer)),
                         () -> open(viewer));
             }));
         } else {
-            gui.setItem(5, 4, ItemStyle.unavailable(Material.PLAYER_HEAD, "Tête", "Réservé aux têtes de joueur"));
+            gui.setItem(5, 4, ItemStyle.unavailable(Material.PLAYER_HEAD, Tr.t("Tête"), Tr.t("Réservé aux têtes de joueur")));
         }
 
         if (meta instanceof PotionMeta potion) {
-            gui.setItem(5, 5, ItemStyle.button(Material.POTION, "Effets", ItemStyle.card("Potion")
+            gui.setItem(5, 5, ItemStyle.button(Material.POTION, Tr.t("Effets"), ItemStyle.card(Tr.t("Potion"))
                     .blank()
-                    .count(Card.STAR, "Effets personnalisés", potion.getCustomEffects().size())
+                    .count(Card.STAR, Tr.t("Effets personnalisés"), potion.getCustomEffects().size())
                     .blank()
-                    .click("pour gérer les effets"), potion.hasCustomEffects(),
+                    .click(Tr.t("pour gérer les effets")), potion.hasCustomEffects(),
                     event -> potions.open(viewer(event.getWhoClicked()))));
         } else {
-            gui.setItem(5, 5, ItemStyle.unavailable(Material.POTION, "Effets", "Réservé aux potions et flèches à effet"));
+            gui.setItem(5, 5, ItemStyle.unavailable(Material.POTION, Tr.t("Effets"), Tr.t("Réservé aux potions et flèches à effet")));
         }
 
         if (meta instanceof ArmorMeta armor) {
-            gui.setItem(5, 6, ItemStyle.button(Material.SENTRY_ARMOR_TRIM_SMITHING_TEMPLATE, "Garniture", ItemStyle.card("Armure")
+            gui.setItem(5, 6, ItemStyle.button(Material.SENTRY_ARMOR_TRIM_SMITHING_TEMPLATE, Tr.t("Garniture"), ItemStyle.card(Tr.t("Armure"))
                     .blank()
-                    .stat(Card.STAR, "Actuelle", armor.hasTrim()
+                    .stat(Card.STAR, Tr.t("Actuelle"), armor.hasTrim()
                             ? ItemLookup.shortKey(armor.getTrim().getPattern()) + " en " + ItemLookup.shortKey(armor.getTrim().getMaterial())
                             : "aucune")
                     .blank()
-                    .click("Clic gauche", "pour choisir une garniture")
-                    .click("Clic droit", "pour la retirer"), armor.hasTrim(), event -> {
+                    .click(Tr.t("Clic gauche"), Tr.t("pour choisir une garniture"))
+                    .click(Tr.t("Clic droit"), Tr.t("pour la retirer")), armor.hasTrim(), event -> {
                 Player viewer = viewer(event.getWhoClicked());
                 if (event.isRightClick()) {
                     apply(viewer, held -> ItemEditor.trim(held, null, null));
@@ -361,35 +363,35 @@ public final class ItemEditMenu {
                 pickTrim(viewer);
             }));
         } else {
-            gui.setItem(5, 6, ItemStyle.unavailable(Material.SENTRY_ARMOR_TRIM_SMITHING_TEMPLATE, "Garniture", "Réservé aux pièces d'armure"));
+            gui.setItem(5, 6, ItemStyle.unavailable(Material.SENTRY_ARMOR_TRIM_SMITHING_TEMPLATE, Tr.t("Garniture"), Tr.t("Réservé aux pièces d'armure")));
         }
 
         if (meta instanceof BookMeta) {
-            gui.setItem(5, 7, ItemStyle.button(Material.WRITTEN_BOOK, "Livre", ItemStyle.card("Livre écrit")
+            gui.setItem(5, 7, ItemStyle.button(Material.WRITTEN_BOOK, Tr.t("Livre"), ItemStyle.card(Tr.t("Livre écrit"))
                     .blank()
-                    .click("Clic gauche", "pour changer le titre")
-                    .click("Clic droit", "pour changer l'auteur"), false, event -> {
+                    .click(Tr.t("Clic gauche"), Tr.t("pour changer le titre"))
+                    .click(Tr.t("Clic droit"), Tr.t("pour changer l'auteur")), false, event -> {
                 Player viewer = viewer(event.getWhoClicked());
                 boolean author = event.isRightClick();
-                ItemPrompts.edit(service, viewer, author ? "Auteur" : "Titre", true,
+                ItemPrompts.edit(service, viewer, author ? Tr.t("Auteur") : Tr.t("Titre"), true,
                         text -> held -> author ? ItemEditor.bookAuthor(held, text) : ItemEditor.bookTitle(held, text),
                         () -> open(viewer));
             }));
         } else {
-            gui.setItem(5, 7, ItemStyle.unavailable(Material.WRITTEN_BOOK, "Livre", "Réservé aux livres écrits"));
+            gui.setItem(5, 7, ItemStyle.unavailable(Material.WRITTEN_BOOK, Tr.t("Livre"), Tr.t("Réservé aux livres écrits")));
         }
     }
 
     private void pickTrim(Player player) {
-        ItemPickerMenu.open(player, "Matériau de garniture", ItemLookup.sorted(Registry.TRIM_MATERIAL),
+        ItemPickerMenu.open(player, Tr.t("Matériau de garniture"), ItemLookup.sorted(Registry.TRIM_MATERIAL),
                 material -> ItemPickerMenu.icon(ItemNaming.trimMaterialIcon(material),
                         Card.title(ItemStyle.HEX, ItemStyle.ACCENT, ItemNaming.trimMaterial(material)),
-                        ItemStyle.card("Étape 1 sur 2").blank().click("pour choisir ce matériau").build()),
-                (viewer, material) -> ItemPickerMenu.open(viewer, "Motif de garniture",
+                        ItemStyle.card(Tr.t("Étape 1 sur 2")).blank().click(Tr.t("pour choisir ce matériau")).build()),
+                (viewer, material) -> ItemPickerMenu.open(viewer, Tr.t("Motif de garniture"),
                         ItemLookup.sorted(Registry.TRIM_PATTERN),
                         pattern -> ItemPickerMenu.icon(ItemNaming.trimPatternIcon(pattern),
                                 Card.title(ItemStyle.HEX, ItemStyle.ACCENT, ItemNaming.trimPattern(pattern)),
-                                ItemStyle.card("Étape 2 sur 2").blank().click("pour appliquer ce motif").build()),
+                                ItemStyle.card(Tr.t("Étape 2 sur 2")).blank().click(Tr.t("pour appliquer ce motif")).build()),
                         (chooser, pattern) -> {
                             service.apply(chooser, held -> ItemEditor.trim(held, material, pattern));
                             open(chooser);
@@ -399,13 +401,13 @@ public final class ItemEditMenu {
 
     private GuiItem toggle(Material material, String name, boolean active, String description,
                            BiFunction<ItemStack, String, Edit> change) {
-        return ItemStyle.button(material, name, ItemStyle.card("Option")
-                .section("Description")
+        return ItemStyle.button(material, name, ItemStyle.card(Tr.t("Option"))
+                .section(Tr.t("Description"))
                 .line(description)
                 .blank()
-                .stat(Card.FLAG, "État", ItemStyle.state(active))
+                .stat(Card.FLAG, Tr.t("État"), ItemStyle.state(active))
                 .blank()
-                .click(active ? "pour désactiver" : "pour activer"), active,
+                .click(active ? Tr.t("pour désactiver") : Tr.t("pour activer")), active,
                 event -> apply(viewer(event.getWhoClicked()), held -> change.apply(held, active ? "off" : "on")));
     }
 
@@ -413,10 +415,10 @@ public final class ItemEditMenu {
                               Function<String, Function<ItemStack, Edit>> set, Function<ItemStack, Edit> reset) {
         return ItemStyle.button(material, name, ItemStyle.card(tag)
                 .blank()
-                .stat(Card.FLAG, "Actuel", current == null ? "par défaut" : current)
+                .stat(Card.FLAG, Tr.t("Actuel"), current == null ? Tr.t("par défaut") : current)
                 .blank()
-                .click("Clic gauche", "pour saisir espace:nom")
-                .click("Clic droit", "pour réinitialiser"), current != null, event -> {
+                .click(Tr.t("Clic gauche"), Tr.t("pour saisir espace:nom"))
+                .click(Tr.t("Clic droit"), Tr.t("pour réinitialiser")), current != null, event -> {
             Player viewer = viewer(event.getWhoClicked());
             if (event.isRightClick()) {
                 apply(viewer, reset);
@@ -428,11 +430,11 @@ public final class ItemEditMenu {
 
     private GuiItem undoButton(Player player) {
         int undoable = service.undoable(player.getUniqueId());
-        return Guis.item(Material.RECOVERY_COMPASS, ItemStyle.heading("Annuler"), ItemStyle.card("Historique")
+        return Guis.item(Material.RECOVERY_COMPASS, ItemStyle.heading(Tr.t("Annuler")), ItemStyle.card(Tr.t("Historique"))
                 .blank()
-                .count(Card.TIME, "Modifications annulables", undoable)
+                .count(Card.TIME, Tr.t("Modifications annulables"), undoable)
                 .blank()
-                .click("pour annuler la dernière modification")
+                .click(Tr.t("pour annuler la dernière modification"))
                 .build(), undoable > 0, event -> {
             Player viewer = viewer(event.getWhoClicked());
             service.undo(viewer);
@@ -441,12 +443,12 @@ public final class ItemEditMenu {
     }
 
     private GuiItem helpButton() {
-        return Guis.item(Material.BOOK, ItemStyle.heading("Commandes"), ItemStyle.card("Aide")
-                .section("Description")
-                .line("Tout se fait aussi en commande :")
-                .line(Palette.WARNING + "/item edit <champ> ...")
+        return Guis.item(Material.BOOK, ItemStyle.heading(Tr.t("Commandes")), ItemStyle.card(Tr.t("Aide"))
+                .section(Tr.t("Description"))
+                .line(Tr.t("Tout se fait aussi en commande :"))
+                .line(Palette.WARNING + Tr.t("/item edit <champ> ..."))
                 .blank()
-                .click("pour afficher la liste dans le chat")
+                .click(Tr.t("pour afficher la liste dans le chat"))
                 .build(), false, event -> {
             Player viewer = viewer(event.getWhoClicked());
             viewer.closeInventory();

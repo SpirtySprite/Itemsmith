@@ -1,5 +1,7 @@
 package com.kirugoldzzzz.itemsmith;
 
+import com.kirugoldzzzz.itemsmith.common.text.Tr;
+
 import net.kyori.adventure.text.Component;
 
 import java.util.ArrayList;
@@ -29,7 +31,7 @@ final class LoreEdit {
         List<Component> copy = copy(lore);
         ensureRoom(copy);
         if (line < 1 || line > copy.size() + 1) {
-            throw new EditException("Position " + line + " invalide, choisissez entre 1 et " + (copy.size() + 1));
+            throw new EditException("Position " + line + Tr.t(" invalide, choisissez entre 1 et ") + (copy.size() + 1));
         }
         copy.add(line - 1, value);
         return copy;
@@ -45,7 +47,7 @@ final class LoreEdit {
         List<Component> copy = copy(lore);
         Component moved = copy.remove(index(copy, from));
         if (to < 1 || to > copy.size() + 1) {
-            throw new EditException("Position " + to + " invalide, choisissez entre 1 et " + (copy.size() + 1));
+            throw new EditException("Position " + to + Tr.t(" invalide, choisissez entre 1 et ") + (copy.size() + 1));
         }
         copy.add(to - 1, moved);
         return copy;
@@ -53,17 +55,17 @@ final class LoreEdit {
 
     private static int index(List<Component> lore, int line) {
         if (lore.isEmpty()) {
-            throw new EditException("La description est vide");
+            throw new EditException(Tr.t("La description est vide"));
         }
         if (line < 1 || line > lore.size()) {
-            throw new EditException("La ligne " + line + " n'existe pas, choisissez entre 1 et " + lore.size());
+            throw new EditException(Tr.t("La ligne ") + line + Tr.t(" n'existe pas, choisissez entre 1 et ") + lore.size());
         }
         return line - 1;
     }
 
     private static void ensureRoom(List<Component> lore) {
         if (lore.size() >= MAX_LINES) {
-            throw new EditException("La description ne peut pas dépasser " + MAX_LINES + " lignes");
+            throw new EditException(Tr.t("La description ne peut pas dépasser ") + MAX_LINES + " lignes");
         }
     }
 

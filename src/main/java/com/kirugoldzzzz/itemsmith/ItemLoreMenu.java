@@ -1,5 +1,7 @@
 package com.kirugoldzzzz.itemsmith;
 
+import com.kirugoldzzzz.itemsmith.common.text.Tr;
+
 import com.foliagui.builder.item.ItemBuilder;
 import com.foliagui.gui.PaginatedGui;
 import com.foliagui.item.GuiItem;
@@ -45,7 +47,7 @@ final class ItemLoreMenu {
         List<Component> lore = meta != null && meta.hasLore() ? meta.lore() : List.of();
         PaginatedGui gui = PaginatedGui.builder()
                 .rows(6)
-                .title(ItemStyle.guiTitle("Description"))
+                .title(ItemStyle.guiTitle(Tr.t("Description")))
                 .create();
         List<Integer> lines = IntStream.rangeClosed(1, lore.size()).boxed().toList();
         DeferredPage<Integer> page = Guis.deferred(gui, lines, PAGE_SIZE,
@@ -59,16 +61,16 @@ final class ItemLoreMenu {
 
     private GuiItem lineIcon(int line, Component text, int total) {
         List<Component> lore = new ArrayList<>(Mini.labels(ItemStyle.card("Ligne " + line + " sur " + total)
-                .section("Aperçu")
+                .section(Tr.t("Aperçu"))
                 .build()));
         lore.add(BAR.append(text));
         lore.addAll(Mini.labels(Card.of(ItemStyle.HEX)
                 .blank()
-                .click("Clic gauche", "pour modifier")
-                .click("Clic droit", "pour supprimer")
-                .click("Maj + clic gauche", "pour monter")
-                .click("Maj + clic droit", "pour descendre")
-                .click("Touche jeter", "pour insérer une ligne avant")
+                .click(Tr.t("Clic gauche"), Tr.t("pour modifier"))
+                .click(Tr.t("Clic droit"), Tr.t("pour supprimer"))
+                .click(Tr.t("Maj + clic gauche"), Tr.t("pour monter"))
+                .click(Tr.t("Maj + clic droit"), Tr.t("pour descendre"))
+                .click(Tr.t("Touche jeter"), Tr.t("pour insérer une ligne avant"))
                 .build()));
         return ItemBuilder.of(Material.PAPER)
                 .name(Mini.label(ItemStyle.heading("Ligne " + line)))
@@ -78,55 +80,55 @@ final class ItemLoreMenu {
                     ClickType click = event.getClick();
                     switch (click) {
                         case SHIFT_LEFT -> apply(player, lore(lines -> LoreEdit.move(lines, line, Math.max(1, line - 1)),
-                                "Ligne " + line + " montée"));
+                                "Ligne " + line + Tr.t(" montée")));
                         case SHIFT_RIGHT -> apply(player, lore(lines -> LoreEdit.move(lines, line, Math.min(total, line + 1)),
                                 "Ligne " + line + " descendue"));
                         case RIGHT -> apply(player, lore(lines -> LoreEdit.remove(lines, line), "Ligne " + line + " supprimée"));
                         case DROP, CONTROL_DROP -> ItemPrompts.edit(service, player, "Nouvelle ligne", true,
                                 typed -> lore(lines -> LoreEdit.insert(lines, line, ItemText.parse(typed)),
-                                        "Ligne insérée en position " + line), () -> open(player));
+                                        Tr.t("Ligne insérée en position ") + line), () -> open(player));
                         default -> ItemPrompts.edit(service, player, "Ligne " + line, true,
                                 typed -> lore(lines -> LoreEdit.set(lines, line, ItemText.parse(typed)),
-                                        "Ligne " + line + " modifiée"), () -> open(player));
+                                        "Ligne " + line + Tr.t(" modifiée")), () -> open(player));
                     }
                 });
     }
 
     private GuiItem addButton(int total) {
-        return Guis.item(Material.LIME_DYE, ItemStyle.heading("Ajouter une ligne"), ItemStyle.card("Description")
+        return Guis.item(Material.LIME_DYE, ItemStyle.heading(Tr.t("Ajouter une ligne")), ItemStyle.card(Tr.t("Description"))
                 .blank()
-                .count(Card.AMOUNT, "Lignes", total)
-                .line("Couleurs MiniMessage ou codes &")
-                .line(Palette.MUTED + "Texte long : /item edit lore add")
+                .count(Card.AMOUNT, Tr.t("Lignes"), total)
+                .line(Tr.t("Couleurs MiniMessage ou codes &"))
+                .line(Palette.MUTED + Tr.t("Texte long : /item edit lore add"))
                 .blank()
-                .click("pour écrire une nouvelle ligne")
+                .click(Tr.t("pour écrire une nouvelle ligne"))
                 .build(), false, event -> {
             Player player = (Player) event.getWhoClicked();
-            ItemPrompts.edit(service, player, "Nouvelle ligne", true,
-                    typed -> lore(lines -> LoreEdit.add(lines, ItemText.parse(typed)), "Ligne ajoutée"),
+            ItemPrompts.edit(service, player, Tr.t("Nouvelle ligne"), true,
+                    typed -> lore(lines -> LoreEdit.add(lines, ItemText.parse(typed)), Tr.t("Ligne ajoutée")),
                     () -> open(player));
         });
     }
 
     private GuiItem clearButton(int total) {
         if (total == 0) {
-            return ItemStyle.unavailable(Material.BARRIER, "Tout effacer", "La description est déjà vide");
+            return ItemStyle.unavailable(Material.BARRIER, Tr.t("Tout effacer"), Tr.t("La description est déjà vide"));
         }
-        return Guis.item(Material.BARRIER, Palette.ERROR + "<b>" + Card.small("Tout effacer") + "</b>",
+        return Guis.item(Material.BARRIER, Palette.ERROR + "<b>" + Card.small(Tr.t("Tout effacer")) + "</b>",
                 Card.of(Palette.ERROR_HEX)
-                        .tag("Description")
+                        .tag(Tr.t("Description"))
                         .blank()
-                        .line("Supprime les " + total + " lignes")
-                        .line("Annulable avec /item undo")
+                        .line(Tr.t("Supprime les ") + total + " lignes")
+                        .line(Tr.t("Annulable avec /item undo"))
                         .blank()
-                        .click("Maj + clic", "pour confirmer")
+                        .click(Tr.t("Maj + clic"), Tr.t("pour confirmer"))
                         .build(), false, event -> {
                     Player player = (Player) event.getWhoClicked();
                     if (!event.isShiftClick()) {
                         Guis.deny(player);
                         return;
                     }
-                    apply(player, lore(lines -> List.of(), "Description effacée"));
+                    apply(player, lore(lines -> List.of(), Tr.t("Description effacée")));
                 });
     }
 

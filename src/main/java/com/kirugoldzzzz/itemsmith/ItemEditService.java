@@ -1,5 +1,7 @@
 package com.kirugoldzzzz.itemsmith;
 
+import com.kirugoldzzzz.itemsmith.common.text.Tr;
+
 import com.destroystokyo.paper.profile.PlayerProfile;
 import com.kirugoldzzzz.itemsmith.common.gui.Guis;
 import com.kirugoldzzzz.itemsmith.common.scheduler.Scheduling;
@@ -50,7 +52,7 @@ public final class ItemEditService {
         } catch (EditException invalid) {
             edit = Edit.failed(invalid.getMessage());
         } catch (RuntimeException refused) {
-            edit = Edit.failed("Le jeu refuse cette modification : " + refused.getMessage());
+            edit = Edit.failed(Tr.t("Le jeu refuse cette modification : ") + refused.getMessage());
         }
         if (!edit.success()) {
             fail(player, edit.message());
@@ -77,7 +79,7 @@ public final class ItemEditService {
             return false;
         }
         if (!last.after().equals(player.getInventory().getItemInMainHand()) || !remove(stack, last)) {
-            fail(player, "Reprenez en main l'objet modifié pour annuler");
+            fail(player, Tr.t("Reprenez en main l'objet modifié pour annuler"));
             return false;
         }
         player.getInventory().setItemInMainHand(last.before());
@@ -102,7 +104,7 @@ public final class ItemEditService {
             boolean found = profile.complete(true);
             Scheduling.entity(player, () -> {
                 if (!found || !profile.hasTextures()) {
-                    fail(player, "Aucun skin trouvé pour " + name);
+                    fail(player, Tr.t("Aucun skin trouvé pour ") + name);
                 } else {
                     apply(player, item -> ItemEditor.skullProfile(item, profile));
                 }

@@ -1,5 +1,7 @@
 package com.kirugoldzzzz.itemsmith;
 
+import com.kirugoldzzzz.itemsmith.common.text.Tr;
+
 import com.foliagui.gui.PaginatedGui;
 import com.foliagui.item.GuiItem;
 import com.kirugoldzzzz.itemsmith.common.gui.DeferredPage;
@@ -39,18 +41,18 @@ final class ItemEnchantMenu {
         Map<Enchantment, Integer> current = meta == null ? Map.of() : meta.getEnchants();
         PaginatedGui gui = PaginatedGui.builder()
                 .rows(6)
-                .title(ItemStyle.guiTitle("Enchantements"))
+                .title(ItemStyle.guiTitle(Tr.t("Enchantements")))
                 .create();
         List<Enchantment> enchantments = ItemLookup.sorted(Registry.ENCHANTMENT);
         DeferredPage<Enchantment> page = Guis.deferred(gui, enchantments, PAGE_SIZE,
                 enchantment -> icon(item, enchantment, current.getOrDefault(enchantment, 0)));
         Guis.paginationBar(gui, () -> back.accept(player));
         gui.setItem(6, 4, clearButton(current.size()));
-        gui.setItem(6, 6, Guis.display(Material.KNOWLEDGE_BOOK, ItemStyle.heading("Sans limite"), ItemStyle.card("Info")
-                .section("Description")
-                .line("Tous les enchantements s'appliquent")
-                .line("sur n'importe quel objet, sans conflit")
-                .line("et jusqu'au niveau " + ItemLookup.MAX_ENCHANT_LEVEL + ", le maximum du jeu.")
+        gui.setItem(6, 6, Guis.display(Material.KNOWLEDGE_BOOK, ItemStyle.heading(Tr.t("Sans limite")), ItemStyle.card(Tr.t("Info"))
+                .section(Tr.t("Description"))
+                .line(Tr.t("Tous les enchantements s'appliquent"))
+                .line(Tr.t("sur n'importe quel objet, sans conflit"))
+                .line(Tr.t("et jusqu'au niveau ") + ItemLookup.MAX_ENCHANT_LEVEL + Tr.t(", le maximum du jeu."))
                 .build()));
         Guis.controls(gui, page);
         gui.open(player);
@@ -58,16 +60,16 @@ final class ItemEnchantMenu {
 
     private GuiItem icon(ItemStack item, Enchantment enchantment, int level) {
         boolean applied = level > 0;
-        Card card = ItemStyle.card(applied ? "Appliqué" : "Disponible")
+        Card card = ItemStyle.card(applied ? Tr.t("Appliqué") : Tr.t("Disponible"))
                 .blank()
-                .stat(applied ? Palette.SUCCESS : Palette.MUTED, Card.STAR, "Niveau actuel", applied ? level : "aucun")
-                .stat(Card.FLAG, "Maximum normal", enchantment.getMaxLevel())
-                .stat(Card.CATEGORY, "Adapté à cet objet", enchantment.canEnchantItem(item) ? "oui" : "non, forcé quand même")
+                .stat(applied ? Palette.SUCCESS : Palette.MUTED, Card.STAR, Tr.t("Niveau actuel"), applied ? level : "aucun")
+                .stat(Card.FLAG, Tr.t("Maximum normal"), enchantment.getMaxLevel())
+                .stat(Card.CATEGORY, Tr.t("Adapté à cet objet"), enchantment.canEnchantItem(item) ? "oui" : Tr.t("non, forcé quand même"))
                 .blank()
-                .click("Clic gauche", "pour ajouter un niveau")
-                .click("Clic droit", "pour retirer un niveau")
-                .click("Maj + clic gauche", "pour choisir le niveau")
-                .click("Maj + clic droit", "pour le retirer");
+                .click(Tr.t("Clic gauche"), Tr.t("pour ajouter un niveau"))
+                .click(Tr.t("Clic droit"), Tr.t("pour retirer un niveau"))
+                .click(Tr.t("Maj + clic gauche"), Tr.t("pour choisir le niveau"))
+                .click(Tr.t("Maj + clic droit"), Tr.t("pour le retirer"));
         return Guis.item(applied ? Material.ENCHANTED_BOOK : Material.BOOK,
                 Card.title(ItemStyle.HEX, ItemStyle.ACCENT, ItemNaming.enchantment(enchantment)
                         + (applied ? " " + level : "")),
@@ -75,7 +77,7 @@ final class ItemEnchantMenu {
                     Player player = (Player) event.getWhoClicked();
                     switch (event.getClick()) {
                         case SHIFT_LEFT -> ItemPrompts.edit(service, player, "Niveau 1 à 255", false, typed -> {
-                            int chosen = ItemLookup.integer(typed, 1, ItemLookup.MAX_ENCHANT_LEVEL, "Le niveau");
+                            int chosen = ItemLookup.integer(typed, 1, ItemLookup.MAX_ENCHANT_LEVEL, Tr.t("Le niveau"));
                             return held -> ItemEditor.enchant(held, enchantment, chosen);
                         }, () -> open(player));
                         case SHIFT_RIGHT -> apply(player, held -> ItemEditor.unenchant(held, enchantment));
@@ -90,15 +92,15 @@ final class ItemEnchantMenu {
 
     private GuiItem clearButton(int count) {
         if (count == 0) {
-            return ItemStyle.unavailable(Material.GRINDSTONE, "Tout retirer", "Aucun enchantement appliqué");
+            return ItemStyle.unavailable(Material.GRINDSTONE, Tr.t("Tout retirer"), Tr.t("Aucun enchantement appliqué"));
         }
-        return Guis.item(Material.GRINDSTONE, Palette.ERROR + "<b>" + Card.small("Tout retirer") + "</b>",
+        return Guis.item(Material.GRINDSTONE, Palette.ERROR + "<b>" + Card.small(Tr.t("Tout retirer")) + "</b>",
                 Card.of(Palette.ERROR_HEX)
-                        .tag("Enchantements")
+                        .tag(Tr.t("Enchantements"))
                         .blank()
-                        .count(Card.STAR, "Appliqués", count)
+                        .count(Card.STAR, Tr.t("Appliqués"), count)
                         .blank()
-                        .click("Maj + clic", "pour tout retirer")
+                        .click(Tr.t("Maj + clic"), Tr.t("pour tout retirer"))
                         .build(), false, event -> {
                     Player player = (Player) event.getWhoClicked();
                     if (!event.isShiftClick()) {

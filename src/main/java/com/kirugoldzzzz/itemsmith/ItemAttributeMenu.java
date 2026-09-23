@@ -1,5 +1,7 @@
 package com.kirugoldzzzz.itemsmith;
 
+import com.kirugoldzzzz.itemsmith.common.text.Tr;
+
 import com.foliagui.gui.PaginatedGui;
 import com.foliagui.item.GuiItem;
 import com.kirugoldzzzz.itemsmith.common.gui.DeferredPage;
@@ -44,7 +46,7 @@ final class ItemAttributeMenu {
         }
         PaginatedGui gui = PaginatedGui.builder()
                 .rows(6)
-                .title(ItemStyle.guiTitle("Attributs"))
+                .title(ItemStyle.guiTitle(Tr.t("Attributs")))
                 .create();
         DeferredPage<Map.Entry<Attribute, AttributeModifier>> page = Guis.deferred(gui, modifiers, PAGE_SIZE,
                 entry -> modifierIcon(entry.getKey(), entry.getValue()));
@@ -52,12 +54,12 @@ final class ItemAttributeMenu {
         gui.setItem(6, 4, addButton());
         gui.setItem(6, 6, resetButton(!modifiers.isEmpty()));
         if (modifiers.isEmpty()) {
-            gui.setItem(3, 5, Guis.display(Material.STRUCTURE_VOID, ItemStyle.heading("Attributs par défaut"),
-                    ItemStyle.card("Attributs")
-                            .section("Description")
-                            .line("L'objet garde ses attributs d'origine.")
-                            .line("Ajouter un modificateur les remplace tous,")
-                            .line("comme en vanilla.")
+            gui.setItem(3, 5, Guis.display(Material.STRUCTURE_VOID, ItemStyle.heading(Tr.t("Attributs par défaut")),
+                    ItemStyle.card(Tr.t("Attributs"))
+                            .section(Tr.t("Description"))
+                            .line(Tr.t("L'objet garde ses attributs d'origine."))
+                            .line(Tr.t("Ajouter un modificateur les remplace tous,"))
+                            .line(Tr.t("comme en vanilla."))
                             .build()));
         }
         Guis.controls(gui, page);
@@ -67,14 +69,14 @@ final class ItemAttributeMenu {
     private GuiItem modifierIcon(Attribute attribute, AttributeModifier modifier) {
         return Guis.item(ItemNaming.attributeIcon(attribute),
                 Card.title(ItemStyle.HEX, ItemStyle.ACCENT, ItemNaming.attribute(attribute)),
-                ItemStyle.card("Modificateur")
-                        .section("Valeur")
-                        .stat(modifier.getAmount() >= 0 ? Palette.SUCCESS : Palette.ERROR, Card.STAR, "Montant",
+                ItemStyle.card(Tr.t("Modificateur"))
+                        .section(Tr.t("Valeur"))
+                        .stat(modifier.getAmount() >= 0 ? Palette.SUCCESS : Palette.ERROR, Card.STAR, Tr.t("Montant"),
                                 format(modifier.getAmount()))
-                        .stat(Card.FLAG, "Opération", ItemNaming.operation(modifier.getOperation()))
-                        .stat(Card.CATEGORY, "Emplacement", ItemNaming.slot(modifier.getSlotGroup()))
+                        .stat(Card.FLAG, Tr.t("Opération"), ItemNaming.operation(modifier.getOperation()))
+                        .stat(Card.CATEGORY, Tr.t("Emplacement"), ItemNaming.slot(modifier.getSlotGroup()))
                         .blank()
-                        .click("Clic droit", "pour retirer")
+                        .click(Tr.t("Clic droit"), Tr.t("pour retirer"))
                         .build(), false, event -> {
                     Player player = (Player) event.getWhoClicked();
                     if (!event.isRightClick()) {
@@ -86,29 +88,29 @@ final class ItemAttributeMenu {
     }
 
     private GuiItem addButton() {
-        return Guis.item(Material.LIME_DYE, ItemStyle.heading("Ajouter"), ItemStyle.card("Nouveau modificateur")
-                .section("Étapes")
+        return Guis.item(Material.LIME_DYE, ItemStyle.heading(Tr.t("Ajouter")), ItemStyle.card(Tr.t("Nouveau modificateur"))
+                .section(Tr.t("Étapes"))
                 .line("1. Choisir l'attribut")
-                .line("2. Saisir la valeur")
-                .line("3. Choisir l'opération")
+                .line(Tr.t("2. Saisir la valeur"))
+                .line(Tr.t("3. Choisir l'opération"))
                 .line("4. Choisir l'emplacement")
                 .blank()
-                .click("pour commencer")
+                .click(Tr.t("pour commencer"))
                 .build(), false, event -> pickAttribute((Player) event.getWhoClicked()));
     }
 
     private GuiItem resetButton(boolean customised) {
         if (!customised) {
-            return ItemStyle.unavailable(Material.BARRIER, "Réinitialiser", "Les attributs sont déjà par défaut");
+            return ItemStyle.unavailable(Material.BARRIER, Tr.t("Réinitialiser"), Tr.t("Les attributs sont déjà par défaut"));
         }
-        return Guis.item(Material.BARRIER, Palette.ERROR + "<b>" + Card.small("Réinitialiser") + "</b>",
+        return Guis.item(Material.BARRIER, Palette.ERROR + "<b>" + Card.small(Tr.t("Réinitialiser")) + "</b>",
                 Card.of(Palette.ERROR_HEX)
-                        .tag("Attributs")
+                        .tag(Tr.t("Attributs"))
                         .blank()
-                        .line("Retire tous les modificateurs et rend")
-                        .line("à l'objet ses attributs d'origine.")
+                        .line(Tr.t("Retire tous les modificateurs et rend"))
+                        .line(Tr.t("à l'objet ses attributs d'origine."))
                         .blank()
-                        .click("Maj + clic", "pour confirmer")
+                        .click(Tr.t("Maj + clic"), Tr.t("pour confirmer"))
                         .build(), false, event -> {
                     Player player = (Player) event.getWhoClicked();
                     if (!event.isShiftClick()) {
@@ -120,19 +122,19 @@ final class ItemAttributeMenu {
     }
 
     private void pickAttribute(Player player) {
-        ItemPickerMenu.open(player, "Attribut", ItemLookup.sorted(Registry.ATTRIBUTE),
+        ItemPickerMenu.open(player, Tr.t("Attribut"), ItemLookup.sorted(Registry.ATTRIBUTE),
                 attribute -> ItemPickerMenu.icon(ItemNaming.attributeIcon(attribute),
                         Card.title(ItemStyle.HEX, ItemStyle.ACCENT, ItemNaming.attribute(attribute)),
-                        ItemStyle.card("Étape 1 sur 4")
+                        ItemStyle.card(Tr.t("Étape 1 sur 4"))
                                 .blank()
-                                .stat(Card.FLAG, "Clé", ItemLookup.shortKey(attribute))
+                                .stat(Card.FLAG, Tr.t("Clé"), ItemLookup.shortKey(attribute))
                                 .blank()
-                                .click("pour choisir cet attribut")
+                                .click(Tr.t("pour choisir cet attribut"))
                                 .build()),
-                (viewer, attribute) -> ItemPrompts.ask(viewer, "Valeur", false, typed -> {
+                (viewer, attribute) -> ItemPrompts.ask(viewer, Tr.t("Valeur"), false, typed -> {
                     double amount;
                     try {
-                        amount = ItemLookup.decimal(typed, "La valeur");
+                        amount = ItemLookup.decimal(typed, Tr.t("La valeur"));
                     } catch (EditException invalid) {
                         service.fail(viewer, invalid.getMessage());
                         open(viewer);
@@ -144,28 +146,28 @@ final class ItemAttributeMenu {
     }
 
     private void pickOperation(Player player, Attribute attribute, double amount) {
-        ItemPickerMenu.open(player, "Opération", OPERATIONS,
+        ItemPickerMenu.open(player, Tr.t("Opération"), OPERATIONS,
                 operation -> ItemPickerMenu.icon(operationIcon(operation),
                         ItemStyle.heading(ItemNaming.operation(operation)),
-                        ItemStyle.card("Étape 3 sur 4")
-                                .section("Description")
+                        ItemStyle.card(Tr.t("Étape 3 sur 4"))
+                                .section(Tr.t("Description"))
                                 .line(operationHelp(operation))
                                 .blank()
-                                .click("pour choisir cette opération")
+                                .click(Tr.t("pour choisir cette opération"))
                                 .build()),
                 (viewer, operation) -> pickSlot(viewer, attribute, amount, operation),
                 () -> open(player));
     }
 
     private void pickSlot(Player player, Attribute attribute, double amount, AttributeModifier.Operation operation) {
-        ItemPickerMenu.open(player, "Emplacement", ItemLookup.SLOT_GROUPS,
+        ItemPickerMenu.open(player, Tr.t("Emplacement"), ItemLookup.SLOT_GROUPS,
                 slot -> ItemPickerMenu.icon(ItemNaming.slotIcon(slot), ItemStyle.heading(ItemNaming.slot(slot)),
-                        ItemStyle.card("Étape 4 sur 4")
-                                .section("Récapitulatif")
-                                .stat(Card.STAR, "Montant", format(amount))
-                                .stat(Card.FLAG, "Opération", ItemNaming.operation(operation))
+                        ItemStyle.card(Tr.t("Étape 4 sur 4"))
+                                .section(Tr.t("Récapitulatif"))
+                                .stat(Card.STAR, Tr.t("Montant"), format(amount))
+                                .stat(Card.FLAG, Tr.t("Opération"), ItemNaming.operation(operation))
                                 .blank()
-                                .click("pour appliquer sur cet emplacement")
+                                .click(Tr.t("pour appliquer sur cet emplacement"))
                                 .build()),
                 (viewer, slot) -> {
                     service.apply(viewer, item -> ItemEditor.addAttribute(item, attribute, amount, operation, slot));

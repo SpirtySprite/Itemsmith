@@ -1,5 +1,7 @@
 package com.kirugoldzzzz.itemsmith;
 
+import com.kirugoldzzzz.itemsmith.common.text.Tr;
+
 import com.foliagui.builder.item.ItemBuilder;
 import com.foliagui.gui.PaginatedGui;
 import com.foliagui.item.GuiItem;
@@ -39,14 +41,14 @@ final class ItemPotionMenu {
             return;
         }
         if (!(service.held(player).getItemMeta() instanceof PotionMeta meta)) {
-            service.fail(player, "Cet objet n'est pas une potion");
+            service.fail(player, Tr.t("Cet objet n'est pas une potion"));
             back.accept(player);
             return;
         }
         List<PotionEffect> effects = List.copyOf(meta.getCustomEffects());
         PaginatedGui gui = PaginatedGui.builder()
                 .rows(6)
-                .title(ItemStyle.guiTitle("Effets de potion"))
+                .title(ItemStyle.guiTitle(Tr.t("Effets de potion")))
                 .create();
         DeferredPage<PotionEffect> page = Guis.deferred(gui, effects, PAGE_SIZE, this::effectIcon);
         Guis.paginationBar(gui, () -> back.accept(player));
@@ -61,13 +63,13 @@ final class ItemPotionMenu {
         PotionEffectType type = effect.getType();
         ItemStack icon = ItemPickerMenu.potion(type.getColor(),
                 Card.title(ItemStyle.HEX, ItemStyle.ACCENT, ItemNaming.effect(type)),
-                ItemStyle.card("Effet personnalisé")
-                        .section("Effet")
-                        .stat(Card.STAR, "Niveau", effect.getAmplifier() + 1)
-                        .stat(Card.TIME, "Durée", effect.isInfinite() ? "infinie"
+                ItemStyle.card(Tr.t("Effet personnalisé"))
+                        .section(Tr.t("Effet"))
+                        .stat(Card.STAR, Tr.t("Niveau"), effect.getAmplifier() + 1)
+                        .stat(Card.TIME, Tr.t("Durée"), effect.isInfinite() ? "infinie"
                                 : Numbers.duration(effect.getDuration() * MILLIS_PER_TICK))
                         .blank()
-                        .click("Clic droit", "pour retirer")
+                        .click(Tr.t("Clic droit"), Tr.t("pour retirer"))
                         .build());
         return ItemBuilder.of(icon).asGuiItem(event -> {
             Player player = (Player) event.getWhoClicked();
@@ -81,27 +83,27 @@ final class ItemPotionMenu {
 
     private GuiItem baseButton(PotionMeta meta) {
         PotionType base = meta.getBasePotionType();
-        return Guis.item(Material.GLASS_BOTTLE, ItemStyle.heading("Potion de base"), ItemStyle.card("Base")
+        return Guis.item(Material.GLASS_BOTTLE, ItemStyle.heading(Tr.t("Potion de base")), ItemStyle.card(Tr.t("Base"))
                 .blank()
-                .stat(Card.FLAG, "Actuelle", base == null ? "aucune" : ItemLookup.shortKey(base))
+                .stat(Card.FLAG, Tr.t("Actuelle"), base == null ? "aucune" : ItemLookup.shortKey(base))
                 .blank()
-                .click("Clic gauche", "pour choisir la base")
-                .click("Clic droit", "pour la retirer")
+                .click(Tr.t("Clic gauche"), Tr.t("pour choisir la base"))
+                .click(Tr.t("Clic droit"), Tr.t("pour la retirer"))
                 .build(), base != null, event -> {
             Player player = (Player) event.getWhoClicked();
             if (event.isRightClick()) {
                 apply(player, item -> ItemEditor.potionType(item, null));
                 return;
             }
-            ItemPickerMenu.open(player, "Potion de base", ItemLookup.sorted(Registry.POTION),
+            ItemPickerMenu.open(player, Tr.t("Potion de base"), ItemLookup.sorted(Registry.POTION),
                     type -> ItemPickerMenu.potion(type.getPotionEffects().isEmpty() ? null
                                     : type.getPotionEffects().getFirst().getType().getColor(),
                             Card.title(ItemStyle.HEX, ItemStyle.ACCENT, ItemNaming.potionType(type)),
-                            ItemStyle.card("Base")
+                            ItemStyle.card(Tr.t("Base"))
                                     .blank()
-                                    .stat(Card.FLAG, "Clé", ItemLookup.shortKey(type))
+                                    .stat(Card.FLAG, Tr.t("Clé"), ItemLookup.shortKey(type))
                                     .blank()
-                                    .click("pour choisir cette base")
+                                    .click(Tr.t("pour choisir cette base"))
                                     .build()),
                     (viewer, type) -> apply(viewer, item -> ItemEditor.potionType(item, type)),
                     () -> open(player));
@@ -109,27 +111,27 @@ final class ItemPotionMenu {
     }
 
     private GuiItem addButton() {
-        return Guis.item(Material.BREWING_STAND, ItemStyle.heading("Ajouter un effet"), ItemStyle.card("Nouvel effet")
-                .section("Étapes")
+        return Guis.item(Material.BREWING_STAND, ItemStyle.heading(Tr.t("Ajouter un effet")), ItemStyle.card(Tr.t("Nouvel effet"))
+                .section(Tr.t("Étapes"))
                 .line("1. Choisir l'effet")
-                .line("2. Saisir la durée en secondes")
-                .line("3. Saisir le niveau, jusqu'à " + ItemLookup.MAX_ENCHANT_LEVEL)
+                .line(Tr.t("2. Saisir la durée en secondes"))
+                .line(Tr.t("3. Saisir le niveau, jusqu'à ") + ItemLookup.MAX_ENCHANT_LEVEL)
                 .blank()
-                .click("pour commencer")
+                .click(Tr.t("pour commencer"))
                 .build(), false, event -> pickEffect((Player) event.getWhoClicked()));
     }
 
     private GuiItem clearButton(int count) {
         if (count == 0) {
-            return ItemStyle.unavailable(Material.MILK_BUCKET, "Tout retirer", "Aucun effet personnalisé");
+            return ItemStyle.unavailable(Material.MILK_BUCKET, Tr.t("Tout retirer"), Tr.t("Aucun effet personnalisé"));
         }
-        return Guis.item(Material.MILK_BUCKET, Palette.ERROR + "<b>" + Card.small("Tout retirer") + "</b>",
+        return Guis.item(Material.MILK_BUCKET, Palette.ERROR + "<b>" + Card.small(Tr.t("Tout retirer")) + "</b>",
                 Card.of(Palette.ERROR_HEX)
-                        .tag("Effets")
+                        .tag(Tr.t("Effets"))
                         .blank()
-                        .count(Card.STAR, "Effets personnalisés", count)
+                        .count(Card.STAR, Tr.t("Effets personnalisés"), count)
                         .blank()
-                        .click("Maj + clic", "pour tout retirer")
+                        .click(Tr.t("Maj + clic"), Tr.t("pour tout retirer"))
                         .build(), false, event -> {
                     Player player = (Player) event.getWhoClicked();
                     if (!event.isShiftClick()) {
@@ -141,26 +143,26 @@ final class ItemPotionMenu {
     }
 
     private void pickEffect(Player player) {
-        ItemPickerMenu.open(player, "Effet", ItemLookup.sorted(Registry.MOB_EFFECT),
+        ItemPickerMenu.open(player, Tr.t("Effet"), ItemLookup.sorted(Registry.MOB_EFFECT),
                 type -> ItemPickerMenu.potion(type.getColor(),
                         Card.title(ItemStyle.HEX, ItemStyle.ACCENT, ItemNaming.effect(type)),
-                        ItemStyle.card("Étape 1 sur 3")
+                        ItemStyle.card(Tr.t("Étape 1 sur 3"))
                                 .blank()
-                                .stat(Card.FLAG, "Clé", ItemLookup.shortKey(type))
+                                .stat(Card.FLAG, Tr.t("Clé"), ItemLookup.shortKey(type))
                                 .blank()
-                                .click("pour choisir cet effet")
+                                .click(Tr.t("pour choisir cet effet"))
                                 .build()),
-                (viewer, type) -> ItemPrompts.ask(viewer, "Durée (sec)", false, secondsText -> {
+                (viewer, type) -> ItemPrompts.ask(viewer, Tr.t("Durée (sec)"), false, secondsText -> {
                     int seconds;
                     try {
-                        seconds = ItemLookup.integer(secondsText, 1, Integer.MAX_VALUE / 20, "La durée");
+                        seconds = ItemLookup.integer(secondsText, 1, Integer.MAX_VALUE / 20, Tr.t("La durée"));
                     } catch (EditException invalid) {
                         service.fail(viewer, invalid.getMessage());
                         open(viewer);
                         return;
                     }
-                    ItemPrompts.edit(service, viewer, "Niveau 1 à 255", false, levelText -> {
-                        int level = ItemLookup.integer(levelText, 1, ItemLookup.MAX_ENCHANT_LEVEL, "Le niveau");
+                    ItemPrompts.edit(service, viewer, Tr.t("Niveau 1 à 255"), false, levelText -> {
+                        int level = ItemLookup.integer(levelText, 1, ItemLookup.MAX_ENCHANT_LEVEL, Tr.t("Le niveau"));
                         return item -> ItemEditor.potionEffect(item, type, seconds, level);
                     }, () -> open(viewer));
                 }, () -> open(viewer)),

@@ -1,5 +1,7 @@
 package com.kirugoldzzzz.itemsmith;
 
+import com.kirugoldzzzz.itemsmith.common.text.Tr;
+
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Color;
@@ -58,13 +60,13 @@ final class ItemLookup {
     static NamespacedKey key(String raw) {
         NamespacedKey key = NamespacedKey.fromString(normalize(raw));
         if (key == null) {
-            throw new EditException("Clé invalide \"" + raw + "\", attendu espace:nom");
+            throw new EditException(Tr.t("Clé invalide \"") + raw + Tr.t("\", attendu espace:nom"));
         }
         return key;
     }
 
     static Enchantment enchantment(String raw) {
-        return registered(Registry.ENCHANTMENT, raw, "Enchantement inconnu");
+        return registered(Registry.ENCHANTMENT, raw, Tr.t("Enchantement inconnu"));
     }
 
     static Attribute attribute(String raw) {
@@ -74,23 +76,23 @@ final class ItemLookup {
                 value = value.substring(legacy.length());
             }
         }
-        return registered(Registry.ATTRIBUTE, value, "Attribut inconnu");
+        return registered(Registry.ATTRIBUTE, value, Tr.t("Attribut inconnu"));
     }
 
     static PotionEffectType effect(String raw) {
-        return registered(Registry.MOB_EFFECT, raw, "Effet inconnu");
+        return registered(Registry.MOB_EFFECT, raw, Tr.t("Effet inconnu"));
     }
 
     static PotionType potionType(String raw) {
-        return registered(Registry.POTION, raw, "Type de potion inconnu");
+        return registered(Registry.POTION, raw, Tr.t("Type de potion inconnu"));
     }
 
     static TrimMaterial trimMaterial(String raw) {
-        return registered(Registry.TRIM_MATERIAL, raw, "Matériau de garniture inconnu");
+        return registered(Registry.TRIM_MATERIAL, raw, Tr.t("Matériau de garniture inconnu"));
     }
 
     static TrimPattern trimPattern(String raw) {
-        return registered(Registry.TRIM_PATTERN, raw, "Motif de garniture inconnu");
+        return registered(Registry.TRIM_PATTERN, raw, Tr.t("Motif de garniture inconnu"));
     }
 
     static AttributeModifier.Operation operation(String raw) {
@@ -99,7 +101,7 @@ final class ItemLookup {
         }
         AttributeModifier.Operation operation = OPERATIONS.get(normalize(raw));
         if (operation == null) {
-            throw new EditException("Opération inconnue \"" + raw + "\", attendu add, percent ou multiply");
+            throw new EditException(Tr.t("Opération inconnue \"") + raw + Tr.t("\", attendu add, percent ou multiply"));
         }
         return operation;
     }
@@ -110,7 +112,7 @@ final class ItemLookup {
         }
         EquipmentSlotGroup group = EquipmentSlotGroup.getByName(normalize(raw));
         if (group == null) {
-            throw new EditException("Emplacement inconnu \"" + raw + "\"");
+            throw new EditException(Tr.t("Emplacement inconnu \"") + raw + "\"");
         }
         return group;
     }
@@ -118,7 +120,7 @@ final class ItemLookup {
     static Material material(String raw) {
         Material material = Material.matchMaterial(normalize(raw));
         if (material == null || !material.isItem() || material.isAir()) {
-            throw new EditException("Matériau inconnu \"" + raw + "\"");
+            throw new EditException(Tr.t("Matériau inconnu \"") + raw + "\"");
         }
         return material;
     }
@@ -129,7 +131,7 @@ final class ItemLookup {
         try {
             return ItemFlag.valueOf(prefixed);
         } catch (IllegalArgumentException unknown) {
-            throw new EditException("Masquage inconnu \"" + raw + "\"");
+            throw new EditException(Tr.t("Masquage inconnu \"") + raw + "\"");
         }
     }
 
@@ -139,7 +141,7 @@ final class ItemLookup {
             case "uncommon", "peu_commun", "peu_commune" -> ItemRarity.UNCOMMON;
             case "rare" -> ItemRarity.RARE;
             case "epic", "epique", "épique" -> ItemRarity.EPIC;
-            default -> throw new EditException("Rareté inconnue \"" + raw + "\", attendu common, uncommon, rare ou epic");
+            default -> throw new EditException(Tr.t("Rareté inconnue \"") + raw + Tr.t("\", attendu common, uncommon, rare ou epic"));
         };
     }
 
@@ -150,7 +152,7 @@ final class ItemLookup {
         return switch (normalize(raw)) {
             case "on", "true", "oui", "yes", "1", "vrai" -> true;
             case "off", "false", "non", "no", "0", "faux" -> false;
-            default -> throw new EditException("Valeur \"" + raw + "\" invalide, attendu on ou off");
+            default -> throw new EditException("Valeur \"" + raw + Tr.t("\" invalide, attendu on ou off"));
         };
     }
 
@@ -165,11 +167,11 @@ final class ItemLookup {
         try {
             int value = Integer.parseInt(raw == null ? "" : raw.trim());
             if (value < min || value > max) {
-                throw new EditException(label + " doit être entre " + min + " et " + max);
+                throw new EditException(label + Tr.t(" doit être entre ") + min + " et " + max);
             }
             return value;
         } catch (NumberFormatException invalid) {
-            throw new EditException(label + " doit être un nombre entier entre " + min + " et " + max);
+            throw new EditException(label + Tr.t(" doit être un nombre entier entre ") + min + " et " + max);
         }
     }
 
@@ -177,11 +179,11 @@ final class ItemLookup {
         try {
             double value = Double.parseDouble(raw == null ? "" : raw.trim().replace(',', '.'));
             if (!Double.isFinite(value)) {
-                throw new EditException(label + " doit être un nombre");
+                throw new EditException(label + Tr.t(" doit être un nombre"));
             }
             return value;
         } catch (NumberFormatException invalid) {
-            throw new EditException(label + " doit être un nombre");
+            throw new EditException(label + Tr.t(" doit être un nombre"));
         }
     }
 
@@ -194,7 +196,7 @@ final class ItemLookup {
         String hex = value.startsWith("#") ? value : "#" + value;
         TextColor parsed = hex.length() == 7 ? TextColor.fromHexString(hex) : null;
         if (parsed == null) {
-            throw new EditException("Couleur invalide \"" + raw + "\", attendu #RRGGBB ou un nom comme red");
+            throw new EditException(Tr.t("Couleur invalide \"") + raw + Tr.t("\", attendu #RRGGBB ou un nom comme red"));
         }
         return Color.fromRGB(parsed.value());
     }
