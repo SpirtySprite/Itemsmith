@@ -27,3 +27,6 @@ item-edit:
     - "<muted>┃</muted> <primary>/item edit potion</primary> <text>add effet secondes [niveau], remove, type ou clear"
     - "<muted>┃</muted> <primary>/item edit trim</primary> <text>matériau motif ou clear <muted>▸</muted> <primary>book</primary> <text>title ou author texte"
 
+logs:
+  prefix: "<gradient:#F87171:#A78BFA><b>ʟᴏɢs</b></gradient> <muted>▸</muted> "
+  alert: "<logs><icon> <muted><topic></muted> <muted>┃</muted> <text><title><muted>:</muted> <text><summary> <muted>[<secondary>ᴅᴇᴛᴀɪʟs</secondary><muted>]"
