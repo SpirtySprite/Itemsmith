@@ -1,48 +1,61 @@
 # Itemsmith
 
-Éditeur d'objets en jeu pour Paper et Folia 1.21. Tenez un objet, tapez `/item` et modifiez tout
-depuis un menu : nom, description, enchantements, attributs, drapeaux de masquage, modèle, style
-d'infobulle, rareté, couleur, tête de joueur, durabilité et plus. Chaque modification peut être
-annulée.
+In-game item editor for Paper and Folia 1.21 and 26.x. Hold an item, type `/item` and edit everything
+from a menu: name, description, enchantments, attributes, hide flags, model, tooltip style, rarity,
+colour, player heads, durability and more. Every change can be undone.
 
 ## Installation
 
-1. Placez `Itemsmith.jar` dans `plugins/`.
-2. Démarrez le serveur. `messages.yml` est créé dans `plugins/Itemsmith/`.
+1. Drop `Itemsmith.jar` into `plugins/`.
+2. Start the server. `config.yml` and the language files are created in `plugins/Itemsmith/`.
 
-PlaceholderAPI est optionnel.
+PlaceholderAPI is optional.
 
-## Commandes
+## Commands
 
-| Commande | Effet |
+| Command | Effect |
 |---|---|
-| `/item` | ouvre le menu d'édition de l'objet en main |
-| `/item edit <champ> ...` | modifie un champ directement (voir `/item help`) |
-| `/item undo` | annule la dernière modification |
-| `/item info` | résume l'objet en main |
+| `/item` | opens the editor for the item in your hand |
+| `/item edit <field> ...` | edits a field directly (see `/item help`) |
+| `/item undo` | undoes the last change |
+| `/item info` | summarises the item in your hand |
 
-Alias : `/itemedit`, `/ie`, `/itemeditor`, `/edititem`.
+Aliases: `/itemedit`, `/ie`, `/itemeditor`, `/edititem`.
 
-Champs de `/item edit` : `name`, `lore`, `enchant`, `flag`, `attribute`, `amount`, `maxstack`,
-`damage`, `maxdamage`, `repaircost`, `enchantable`, `unbreakable`, `glider`, `fireresistant`,
-`hidetooltip`, `glint`, `rarity`, `model`, `itemmodel`, `tooltipstyle`, `type`, `color`, `skull`,
-`texture`.
+`/item edit` fields: `name`, `lore`, `enchant`, `flag`, `attribute`, `amount`, `maxstack`, `damage`,
+`maxdamage`, `repaircost`, `enchantable`, `unbreakable`, `glider`, `fireresistant`, `hidetooltip`,
+`glint`, `rarity`, `model`, `itemmodel`, `tooltipstyle`, `type`, `color`, `skull`, `texture`, `potion`,
+`trim`, `book`.
 
 ## Permissions
 
-| Permission | Par défaut | Effet |
+| Permission | Default | Effect |
 |---|---|---|
-| `itemsmith.admin.item` | op | utiliser `/item` |
+| `itemsmith.admin.item` | op | use `/item` |
 
-## Textes
+## Languages
 
-Tous les messages sont dans `messages.yml` et acceptent MiniMessage. Les saisies de texte en jeu
-passent par un panneau.
+Itemsmith ships in English and French. Set the language in `config.yml`:
 
-## Compilation
+```yaml
+language: en
+```
+
+Use `fr` for French.
+
+- `lang/messages_<language>.yml` holds every chat message. Edit it freely.
+- `lang/<language>.yml` translates the menu and item texts. Add or override any entry to customise a
+  label. Missing entries fall back to the original text.
+
+To add a language, copy `lang/messages_en.yml` and `lang/en.yml` to `messages_<code>.yml` and
+`<code>.yml`, translate them, and set `language: <code>`. Changing the language needs a restart.
+
+Text input in game goes through a sign. All messages accept MiniMessage.
+
+## Building
 
 ```bash
 mvn package
 ```
 
-Le plugin se trouve dans `target/Itemsmith.jar`. Java 21 est requis.
+The plugin is in `target/Itemsmith.jar`. Java 21 is required.
