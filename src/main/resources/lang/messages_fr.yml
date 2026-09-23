@@ -3,7 +3,9 @@ prefix: "<gradient:#8B5CF6:#22D3EE><b>ɪᴛᴇᴍsᴍɪᴛʜ</b></gradient> <mut
 general:
   no-permission: "<prefix><error><cross></error> <text>Vous n'avez pas la permission de faire cela."
   players-only: "<prefix><error><cross></error> <text>Seuls les joueurs peuvent utiliser cette commande."
+  update-available: "<prefix><primary>✦</primary> <text><plugin> <secondary><version></secondary> <text>est disponible <muted>(installée : <current>)</muted> <link>"
 item-edit:
+  reloaded: "<prefix><success><check></success> <text>Configuration et langue rechargées."
   no-item: "<prefix><error><cross></error> <text>Tenez un objet en main pour l'éditer."
   applied: "<prefix><success><check></success> <text><change>"
   error: "<prefix><error><cross></error> <text><reason>"

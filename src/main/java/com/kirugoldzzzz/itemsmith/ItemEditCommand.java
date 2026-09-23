@@ -3,6 +3,7 @@ package com.kirugoldzzzz.itemsmith;
 import com.kirugoldzzzz.itemsmith.common.text.Tr;
 
 import com.kirugoldzzzz.itemsmith.common.command.NexusCommand;
+import com.kirugoldzzzz.itemsmith.common.gui.Guis;
 import com.kirugoldzzzz.itemsmith.common.text.Messages;
 import com.kirugoldzzzz.itemsmith.common.text.Mini;
 import net.kyori.adventure.text.Component;
@@ -35,13 +36,19 @@ public final class ItemEditCommand extends NexusCommand {
             "maxstack", "damage", "maxdamage", "unbreakable", "glint", "glider", "fireresistant", "hidetooltip",
             "rarity", "model", "itemmodel", "tooltipstyle", "enchantable", "type", "color", "skull", "texture",
             "potion", "trim", "book", "repaircost");
-    private static final List<String> ROOT = merge(List.of("edit", "undo", "info", "help"), FIELDS);
+    private static final List<String> ROOT = merge(List.of("edit", "undo", "info", "help", "reload"), FIELDS);
     private static final List<String> STATES = List.of("on", "off");
     private static final List<String> RESET = List.of("reset");
     private static final int MATERIAL_SUGGESTIONS = 60;
 
     private final ItemEditService service;
     private final ItemEditMenu menu;
+    private Runnable reloadSettings = () -> {
+    };
+
+    public void onReload(Runnable action) {
+        this.reloadSettings = action;
+    }
 
     public ItemEditCommand(ItemEditService service, ItemEditMenu menu) {
         super(PERMISSION, true);
@@ -61,6 +68,11 @@ public final class ItemEditCommand extends NexusCommand {
             case "undo", "annuler" -> service.undo(player);
             case "info" -> info(player);
             case "help", "aide" -> Messages.lines("item-edit.usage").forEach(player::sendMessage);
+            case "reload", "recharger" -> {
+                reloadSettings.run();
+                Guis.success(player);
+                Messages.send(player, "item-edit.reloaded");
+            }
             default -> {
                 try {
                     edit(player, ItemLookup.normalize(rest[0]), rest);
