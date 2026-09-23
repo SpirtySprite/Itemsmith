@@ -50,7 +50,30 @@ Use `fr` for French.
 To add a language, copy `lang/messages_en.yml` and `lang/en.yml` to `messages_<code>.yml` and
 `<code>.yml`, translate them, and set `language: <code>`. Changing the language needs a restart.
 
-Text input in game goes through a sign. All messages accept MiniMessage.
+Text input in game goes through a sign. All messages accept MiniMessage. `/item reload` rereads
+`config.yml` and the language files.
+
+## Developer API
+
+Add Itemsmith as a `depend` or `softdepend`, then get the service:
+
+```java
+ItemsmithApi.get().ifPresent(itemsmith -> itemsmith.openEditor(player));
+```
+
+`ItemsmithApi` opens the editor, undoes the last edit of a player and tells how many edits can be
+undone.
+
+`ItemEditEvent` fires before an edit replaces the item in hand, from the menu or the command. It
+carries copies of the item before and after, and a short description of the change. Cancelling it
+keeps the original item and leaves the undo history untouched.
+
+## Updates and metrics
+
+On start Itemsmith checks the latest GitHub release and tells the console and players with
+`itemsmith.admin.item` when a newer version exists. Set `update-checker: false` in `config.yml` to
+turn it off. Anonymous usage statistics go through bStats and follow the global bStats opt-out in
+`plugins/bStats/config.yml`.
 
 ## Building
 

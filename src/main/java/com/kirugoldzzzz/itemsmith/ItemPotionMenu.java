@@ -1,7 +1,5 @@
 package com.kirugoldzzzz.itemsmith;
 
-import com.kirugoldzzzz.itemsmith.common.text.Tr;
-
 import com.foliagui.builder.item.ItemBuilder;
 import com.foliagui.gui.PaginatedGui;
 import com.foliagui.item.GuiItem;
@@ -10,6 +8,7 @@ import com.kirugoldzzzz.itemsmith.common.gui.Guis;
 import com.kirugoldzzzz.itemsmith.common.text.Card;
 import com.kirugoldzzzz.itemsmith.common.text.Numbers;
 import com.kirugoldzzzz.itemsmith.common.text.Palette;
+import com.kirugoldzzzz.itemsmith.common.text.Tr;
 import org.bukkit.Material;
 import org.bukkit.Registry;
 import org.bukkit.entity.Player;

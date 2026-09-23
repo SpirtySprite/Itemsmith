@@ -1,7 +1,6 @@
 package com.kirugoldzzzz.itemsmith;
 
 import com.kirugoldzzzz.itemsmith.common.text.Tr;
-
 import net.kyori.adventure.text.Component;
 
 import java.util.ArrayList;

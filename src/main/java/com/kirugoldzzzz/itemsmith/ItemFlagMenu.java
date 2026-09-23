@@ -1,10 +1,9 @@
 package com.kirugoldzzzz.itemsmith;
 
-import com.kirugoldzzzz.itemsmith.common.text.Tr;
-
 import com.foliagui.gui.Gui;
 import com.kirugoldzzzz.itemsmith.common.gui.Guis;
 import com.kirugoldzzzz.itemsmith.common.text.Card;
+import com.kirugoldzzzz.itemsmith.common.text.Tr;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;

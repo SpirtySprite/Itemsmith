@@ -1,7 +1,6 @@
 package com.kirugoldzzzz.itemsmith.common.log;
 
 import com.kirugoldzzzz.itemsmith.common.text.Tr;
-
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;

@@ -1,7 +1,5 @@
 package com.kirugoldzzzz.itemsmith.common.gui;
 
-import com.kirugoldzzzz.itemsmith.common.text.Tr;
-
 import com.foliagui.builder.item.ItemBuilder;
 import com.foliagui.gui.BaseGui;
 import com.foliagui.gui.PaginatedGui;
@@ -13,21 +11,22 @@ import com.kirugoldzzzz.itemsmith.common.text.Card;
 import com.kirugoldzzzz.itemsmith.common.text.Mini;
 import com.kirugoldzzzz.itemsmith.common.text.Numbers;
 import com.kirugoldzzzz.itemsmith.common.text.Palette;
+import com.kirugoldzzzz.itemsmith.common.text.Tr;
 import com.kirugoldzzzz.itemsmith.common.util.LruCache;
 import net.kyori.adventure.text.Component;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-import java.util.function.Function;
 import java.util.UUID;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 public final class Guis {
 

@@ -1,13 +1,12 @@
 package com.kirugoldzzzz.itemsmith;
 
-import com.kirugoldzzzz.itemsmith.api.event.ItemEditEvent;
-import com.kirugoldzzzz.itemsmith.common.text.Tr;
-
 import com.destroystokyo.paper.profile.PlayerProfile;
+import com.kirugoldzzzz.itemsmith.api.event.ItemEditEvent;
 import com.kirugoldzzzz.itemsmith.common.gui.Guis;
 import com.kirugoldzzzz.itemsmith.common.scheduler.Scheduling;
 import com.kirugoldzzzz.itemsmith.common.text.Messages;
 import com.kirugoldzzzz.itemsmith.common.text.Mini;
+import com.kirugoldzzzz.itemsmith.common.text.Tr;
 import com.kirugoldzzzz.itemsmith.common.util.LruCache;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

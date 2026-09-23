@@ -1,9 +1,8 @@
 package com.kirugoldzzzz.itemsmith;
 
-import com.kirugoldzzzz.itemsmith.common.text.Tr;
-
 import com.destroystokyo.paper.profile.PlayerProfile;
 import com.foliagui.builder.item.ItemBuilder;
+import com.kirugoldzzzz.itemsmith.common.text.Tr;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Color;
 import org.bukkit.Material;

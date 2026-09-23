@@ -1,11 +1,10 @@
 package com.kirugoldzzzz.itemsmith;
 
-import com.kirugoldzzzz.itemsmith.common.text.Tr;
-
 import com.kirugoldzzzz.itemsmith.common.command.NexusCommand;
 import com.kirugoldzzzz.itemsmith.common.gui.Guis;
 import com.kirugoldzzzz.itemsmith.common.text.Messages;
 import com.kirugoldzzzz.itemsmith.common.text.Mini;
+import com.kirugoldzzzz.itemsmith.common.text.Tr;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;

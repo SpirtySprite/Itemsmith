@@ -1,13 +1,12 @@
 package com.kirugoldzzzz.itemsmith;
 
-import com.kirugoldzzzz.itemsmith.common.text.Tr;
-
 import com.foliagui.item.GuiAction;
 import com.foliagui.item.GuiItem;
 import com.kirugoldzzzz.itemsmith.common.gui.Guis;
 import com.kirugoldzzzz.itemsmith.common.text.Card;
 import com.kirugoldzzzz.itemsmith.common.text.Mini;
 import com.kirugoldzzzz.itemsmith.common.text.Palette;
+import com.kirugoldzzzz.itemsmith.common.text.Tr;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;

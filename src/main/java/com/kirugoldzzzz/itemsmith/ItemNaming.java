@@ -1,7 +1,6 @@
 package com.kirugoldzzzz.itemsmith;
 
 import com.kirugoldzzzz.itemsmith.common.text.Tr;
-
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
 import org.bukkit.Material;

@@ -1,9 +1,8 @@
 package com.kirugoldzzzz.itemsmith.common.config;
 
-import com.kirugoldzzzz.itemsmith.common.text.Tr;
-
 import com.kirugoldzzzz.itemsmith.common.log.LogTopic;
 import com.kirugoldzzzz.itemsmith.common.log.NexusLog;
+import com.kirugoldzzzz.itemsmith.common.text.Tr;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;

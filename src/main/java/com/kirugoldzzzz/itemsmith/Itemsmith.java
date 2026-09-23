@@ -1,9 +1,9 @@
 package com.kirugoldzzzz.itemsmith;
 
 import com.foliagui.FoliaGUI;
+import com.kirugoldzzzz.itemsmith.api.ItemsmithApi;
 import com.kirugoldzzzz.itemsmith.common.command.NexusCommand;
 import com.kirugoldzzzz.itemsmith.common.config.ConfigFile;
-import com.kirugoldzzzz.itemsmith.api.ItemsmithApi;
 import com.kirugoldzzzz.itemsmith.common.gui.Guis;
 import com.kirugoldzzzz.itemsmith.common.platform.Telemetry;
 import com.kirugoldzzzz.itemsmith.common.platform.UpdateChecker;
