@@ -32,7 +32,9 @@ public final class Itemsmith extends JavaPlugin {
         Guis.installTheme();
         ItemEditService service = new ItemEditService();
         ItemEditMenu menu = new ItemEditMenu(service);
-        ItemEditCommand command = new ItemEditCommand(service, menu);
+        ItemLibrary library = new ItemLibrary(new java.io.File(getDataFolder(), "library.yml"));
+        library.load();
+        ItemEditCommand command = new ItemEditCommand(service, menu, library);
         command.onReload(this::loadSettings);
         bind("item", command);
         getServer().getServicesManager().register(ItemsmithApi.class, new ItemsmithService(service, menu), this,

@@ -23,6 +23,7 @@ public final class ItemEditService {
     private static final int TRACKED_PLAYERS = 256;
 
     private final LruCache<UUID, Deque<Change>> history = new LruCache<>(TRACKED_PLAYERS);
+    private final LruCache<UUID, Deque<Change>> redone = new LruCache<>(TRACKED_PLAYERS);
 
     public ItemStack held(Player player) {
         ItemStack hand = player.getInventory().getItemInMainHand();
@@ -68,6 +69,7 @@ public final class ItemEditService {
         }
         player.getInventory().setItemInMainHand(edit.item());
         remember(player.getUniqueId(), new Change(before, player.getInventory().getItemInMainHand().clone()));
+        redone.remove(player.getUniqueId());
         Guis.success(player);
         Messages.send(player, "item-edit.applied", Mini.value("change", edit.message()));
         return true;
@@ -91,9 +93,39 @@ public final class ItemEditService {
             return false;
         }
         player.getInventory().setItemInMainHand(last.before());
+        push(redone, player.getUniqueId(), last);
         Guis.success(player);
         Messages.send(player, "item-edit.undone", Mini.value("left", String.valueOf(undoable(player.getUniqueId()))));
         return true;
+    }
+
+    public boolean redo(Player player) {
+        Deque<Change> stack = redone.get(player.getUniqueId());
+        Change next = stack == null ? null : peek(stack);
+        if (next == null) {
+            Guis.deny(player);
+            Messages.send(player, "item-edit.nothing-to-redo");
+            return false;
+        }
+        if (!next.before().equals(player.getInventory().getItemInMainHand()) || !remove(stack, next)) {
+            fail(player, Tr.t("Reprenez en main l'objet modifié pour refaire"));
+            return false;
+        }
+        player.getInventory().setItemInMainHand(next.after());
+        push(history, player.getUniqueId(), next);
+        Guis.success(player);
+        Messages.send(player, "item-edit.redone", Mini.value("left", String.valueOf(redoable(player.getUniqueId()))));
+        return true;
+    }
+
+    public int redoable(UUID player) {
+        Deque<Change> stack = redone.get(player);
+        if (stack == null) {
+            return 0;
+        }
+        synchronized (stack) {
+            return stack.size();
+        }
     }
 
     public int undoable(UUID player) {
@@ -124,10 +156,14 @@ public final class ItemEditService {
     }
 
     private void remember(UUID player, Change change) {
-        Deque<Change> stack = history.get(player);
+        push(history, player, change);
+    }
+
+    private static void push(LruCache<UUID, Deque<Change>> cache, UUID player, Change change) {
+        Deque<Change> stack = cache.get(player);
         if (stack == null) {
             stack = new ArrayDeque<>();
-            history.put(player, stack);
+            cache.put(player, stack);
         }
         synchronized (stack) {
             stack.push(change);

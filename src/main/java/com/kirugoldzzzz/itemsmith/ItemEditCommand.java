@@ -2,10 +2,13 @@ package com.kirugoldzzzz.itemsmith;
 
 import com.kirugoldzzzz.itemsmith.common.command.CommandBase;
 import com.kirugoldzzzz.itemsmith.common.gui.Guis;
+import com.kirugoldzzzz.itemsmith.common.scheduler.Scheduling;
 import com.kirugoldzzzz.itemsmith.common.text.Messages;
 import com.kirugoldzzzz.itemsmith.common.text.Mini;
 import com.kirugoldzzzz.itemsmith.common.text.Tr;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -35,7 +38,9 @@ public final class ItemEditCommand extends CommandBase {
             "maxstack", "damage", "maxdamage", "unbreakable", "glint", "glider", "fireresistant", "hidetooltip",
             "rarity", "model", "itemmodel", "tooltipstyle", "enchantable", "type", "color", "skull", "texture",
             "potion", "trim", "book", "repaircost");
-    private static final List<String> ROOT = merge(List.of("edit", "undo", "info", "help", "reload"), FIELDS);
+    private static final List<String> ROOT = merge(List.of("edit", "undo", "redo", "info", "help", "reload", "save",
+            "load", "library", "delete", "export", "give"), FIELDS);
+    private static final List<String> LIBRARY_ACTIONS = List.of("load", "delete", "give");
     private static final List<String> STATES = List.of("on", "off");
     private static final List<String> RESET = List.of("reset");
     private static final int MATERIAL_SUGGESTIONS = 60;
@@ -49,22 +54,40 @@ public final class ItemEditCommand extends CommandBase {
         this.reloadSettings = action;
     }
 
-    public ItemEditCommand(ItemEditService service, ItemEditMenu menu) {
-        super(PERMISSION, true);
+    private final ItemLibrary library;
+    private final ItemLibraryMenu libraryMenu;
+
+    public ItemEditCommand(ItemEditService service, ItemEditMenu menu, ItemLibrary library) {
+        super(PERMISSION, false);
         this.service = service;
         this.menu = menu;
+        this.library = library;
+        this.libraryMenu = new ItemLibraryMenu(library);
     }
 
     @Override
     protected void execute(CommandSender sender, String[] args) {
-        Player player = asPlayer(sender);
         String[] rest = strip(args);
+        if (rest.length > 0 && List.of("give", "donner").contains(ItemLookup.normalize(rest[0]))) {
+            give(sender, rest);
+            return;
+        }
+        if (!(sender instanceof Player player)) {
+            Messages.send(sender, "general.players-only");
+            return;
+        }
         if (rest.length == 0) {
             menu.open(player);
             return;
         }
         switch (ItemLookup.normalize(rest[0])) {
             case "undo", "annuler" -> service.undo(player);
+            case "redo", "refaire" -> service.redo(player);
+            case "save", "sauver" -> save(player, rest);
+            case "load", "charger" -> load(player, rest);
+            case "library", "bibliotheque" -> libraryMenu.open(player);
+            case "delete", "supprimer" -> delete(player, rest);
+            case "export", "exporter" -> export(player);
             case "info" -> info(player);
             case "help", "aide" -> Messages.lines("item-edit.usage").forEach(player::sendMessage);
             case "reload", "recharger" -> {
@@ -319,6 +342,99 @@ public final class ItemEditCommand extends CommandBase {
         }
     }
 
+    private void save(Player player, String[] args) {
+        if (!service.holding(player)) {
+            return;
+        }
+        String id = args.length > 1 ? ItemLibrary.normalize(args[1]) : "";
+        if (!ItemLibrary.validId(id)) {
+            service.fail(player, Tr.t("Identifiant invalide, utilisez 1 à 32 caractères parmi a-z, 0-9, - et _"));
+            return;
+        }
+        boolean replaced = library.get(id).isPresent();
+        library.save(id, service.held(player));
+        Guis.success(player);
+        Messages.send(player, replaced ? "item-edit.library-replaced" : "item-edit.library-saved", Mini.value("id", id));
+    }
+
+    private void load(Player player, String[] args) {
+        String id = args.length > 1 ? args[1] : "";
+        library.get(id).ifPresentOrElse(item -> {
+            ItemLibraryMenu.give(player, item);
+            Guis.success(player);
+            Messages.send(player, "item-edit.library-loaded", Mini.value("id", ItemLibrary.normalize(id)));
+        }, () -> unknown(player, id));
+    }
+
+    private void delete(Player player, String[] args) {
+        String id = args.length > 1 ? args[1] : "";
+        if (library.delete(id)) {
+            Guis.success(player);
+            Messages.send(player, "item-edit.library-deleted", Mini.value("id", ItemLibrary.normalize(id)));
+        } else {
+            unknown(player, id);
+        }
+    }
+
+    private void unknown(CommandSender sender, String id) {
+        if (sender instanceof Player player) {
+            Guis.deny(player);
+        }
+        Messages.send(sender, "item-edit.library-unknown", Mini.value("id", id));
+    }
+
+    private void export(Player player) {
+        if (!service.holding(player)) {
+            return;
+        }
+        String command = giveCommand(service.held(player));
+        Component copy = Component.text(command).clickEvent(ClickEvent.copyToClipboard(command))
+                .hoverEvent(HoverEvent.showText(Component.text(Tr.t("Cliquez pour copier"))));
+        Messages.send(player, "item-edit.exported", Mini.component("command", copy));
+    }
+
+    static String giveCommand(ItemStack item) {
+        String components = item.hasItemMeta() ? item.getItemMeta().getAsComponentString() : "";
+        return "/give @p " + item.getType().getKey().asString() + (components == null ? "" : components)
+                + (item.getAmount() > 1 ? " " + item.getAmount() : "");
+    }
+
+    private void give(CommandSender sender, String[] args) {
+        if (args.length < 3) {
+            Messages.send(sender, "item-edit.give-usage");
+            return;
+        }
+        Player target = Bukkit.getPlayerExact(args[1]);
+        if (target == null) {
+            Messages.send(sender, "general.unknown-player", Mini.value("player", args[1]));
+            return;
+        }
+        int amount = 1;
+        if (args.length > 3) {
+            try {
+                amount = Math.max(1, Math.min(2304, Integer.parseInt(args[3])));
+            } catch (NumberFormatException invalid) {
+                Messages.send(sender, "item-edit.give-usage");
+                return;
+            }
+        }
+        int count = amount;
+        library.get(args[2]).ifPresentOrElse(item -> {
+            Scheduling.entity(target, () -> {
+                int left = count;
+                while (left > 0) {
+                    ItemStack stack = item.clone();
+                    int size = Math.min(left, Math.max(1, stack.getMaxStackSize()));
+                    stack.setAmount(size);
+                    ItemLibraryMenu.give(target, stack);
+                    left -= size;
+                }
+            });
+            Messages.send(sender, "item-edit.given", Mini.value("id", ItemLibrary.normalize(args[2])),
+                    Mini.value("player", target.getName()), Mini.value("amount", String.valueOf(count)));
+        }, () -> unknown(sender, args[2]));
+    }
+
     private void info(Player player) {
         if (!service.holding(player)) {
             return;
@@ -404,8 +520,20 @@ public final class ItemEditCommand extends CommandBase {
         if (rest.length == 1) {
             return match(edit ? FIELDS : ROOT, current);
         }
-        Player player = asPlayer(sender);
-        return match(suggestions(player, ItemLookup.normalize(rest[0]), rest), current);
+        String action = ItemLookup.normalize(rest[0]);
+        if (!edit && LIBRARY_ACTIONS.contains(action)) {
+            if (action.equals("give") && rest.length == 2) {
+                return match(Bukkit.getOnlinePlayers().stream().map(Player::getName).toList(), current);
+            }
+            if (rest.length == (action.equals("give") ? 3 : 2)) {
+                return match(library.ids(), current);
+            }
+            return List.of();
+        }
+        if (!(sender instanceof Player player)) {
+            return List.of();
+        }
+        return match(suggestions(player, action, rest), current);
     }
 
     private List<String> suggestions(Player player, String field, String[] rest) {
