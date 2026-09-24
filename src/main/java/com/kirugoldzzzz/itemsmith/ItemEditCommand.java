@@ -1,6 +1,6 @@
 package com.kirugoldzzzz.itemsmith;
 
-import com.kirugoldzzzz.itemsmith.common.command.NexusCommand;
+import com.kirugoldzzzz.itemsmith.common.command.CommandBase;
 import com.kirugoldzzzz.itemsmith.common.gui.Guis;
 import com.kirugoldzzzz.itemsmith.common.text.Messages;
 import com.kirugoldzzzz.itemsmith.common.text.Mini;
@@ -27,7 +27,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.function.Function;
 
-public final class ItemEditCommand extends NexusCommand {
+public final class ItemEditCommand extends CommandBase {
 
     private static final String PERMISSION = "itemsmith.admin.item";
     private static final List<String> EDIT_ALIASES = List.of("edit", "editer", "modifier");

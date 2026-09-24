@@ -1,5 +1,5 @@
 style-version: 2
-prefix: "<gradient:#8B5CF6:#22D3EE><b>ɪᴛᴇᴍsᴍɪᴛʜ</b></gradient> <muted>▸</muted> "
+prefix: "<gradient:#F59E5B:#FCD34D><b>ɪᴛᴇᴍsᴍɪᴛʜ</b></gradient> <muted>▸</muted> "
 general:
   no-permission: "<prefix><error><cross></error> <text>Vous n'avez pas la permission de faire cela."
   players-only: "<prefix><error><cross></error> <text>Seuls les joueurs peuvent utiliser cette commande."
